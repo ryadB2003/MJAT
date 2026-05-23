@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<!--
+  MKE/MSR Migration Assessment Tool - Python Backend Edition
+
+  Copyright 2025 Mirantis, Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Version: Python Backend Edition
+  Last Updated: 2025-11-19
+
+  This version uses the corrected Python backend for all calculations.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MKE/MSR Migration Assessment Tool (Python Backend)</title>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-5FqMScL+MNB0JCVY4/P6sOZTMEyFY8s3IFZbFLPRe1nAXfNKH6DcBgT4I+P5OdLm" crossorigin="anonymous" onerror="console.error('DOMPurify CDN failed to load.'); window.DOMPurify = { sanitize: html => html };"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #3a3a3a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00D4CC 0%, #00B8B1 100%);
+            color: white;
+            padding: 30px;
+            position: relative;
+        }
+
+        h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .subtitle { opacity: 0.9; font-size: 1.1em; }
+
+        .disclaimer-banner {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF69B4 100%);
+            padding: 16px 24px;
+            margin: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(255, 165, 0, 0.2);
+            color: #ffffff;
+        }
+        .disclaimer-banner strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f0f2f5;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            color: #666;
+            white-space: nowrap;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab:hover { background: #e9ecef; }
+        .nav-tab.active {
+            color: #00D4CC;
+            background: white;
+            border-bottom: 3px solid #00D4CC;
+            font-weight: 600;
+        }
+
+        .content { padding: 30px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .section h2 {
+            color: #00B8B1;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        .question-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #00D4CC;
+            box-shadow: 0 0 0 3px rgba(0, 212, 204, 0.1);
+        }
+
+        textarea { min-height: 100px; resize: vertical; }
+
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 40px;
+        }
+
+        .checkbox-item:hover, .radio-item:hover {
+            border-color: #00D4CC;
+            background: #f0fdfc;
+        }
+
+        .checkbox-item input, .radio-item input {
+            margin: 0 10px 0 0;
+            cursor: pointer;
+            outline: none;
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+        }
+
+        .checkbox-item label, .radio-item label {
+            margin: 0;
+            cursor: pointer;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        td .checkbox-item {
+            padding: 0;
+            background: transparent;
+            border: none;
+            justify-content: center;
+        }
+
+        td .checkbox-item input {
+            margin: 0;
+        }
+
+        td .checkbox-item label {
+            display: none;
+        }
+
+        td .checkbox-item:hover {
+            background: transparent;
+            border: none;
+        }
+
+        .checkbox-item.checked, .radio-item.checked {
+            background: #e6fffe;
+            color: #00675f;
+            border-color: #00D4CC;
+            font-weight: 600;
+        }
+
+        #integration .checkbox-item {
+            padding: 0;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0;
+            justify-content: center;
+        }
+
+        #integration .checkbox-item:hover {
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+
+        #integration .checkbox-item.checked {
+            background: transparent !important;
+            color: inherit !important;
+            border-color: transparent !important;
+            font-weight: normal !important;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #dee2e6;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00D4CC;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #00B8B1;
+            min-width: 50px;
+        }
+
+        .critical-flag {
+            background: #fff5f5;
+            border: 2px solid #ff6b6b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .critical-flag h4 {
+            color: #c92a2a;
+            margin-bottom: 5px;
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            border: 2px solid #4c9aff;
+        }
+
+        .score-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+
+        .score-low { color: #00ff88; }
+        .score-medium { color: #ff9500; }
+        .score-high { color: #ff6b6b; }
+        .score-critical { color: #e63946; }
+
+        .recommendation-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .recommendation-box h3 {
+            color: #00B8B1;
+            margin-bottom: 15px;
+        }
+
+        #riskFactors {
+            padding-left: 20px;
+            margin-left: 0;
+            list-style-position: outside;
+        }
+
+        #riskFactors li {
+            color: #444;
+            font-weight: normal;
+            margin-left: 0;
+            padding-left: 0;
+            margin-bottom: 6px;
+        }
+
+        .no-risks {
+            color: #28a745 !important;
+        }
+
+        .recommendation-box h3 {
+            color: #00B8B1 !important;
+        }
+
+        .risk-factors-box h3 {
+            color: #dc3545 !important;
+        }
+
+        .recommendation-box:first-of-type {
+            border: 2px solid #00D4CC;
+            box-shadow: 0 4px 12px rgba(0, 212, 204, 0.15);
+            background: linear-gradient(135deg, rgba(0, 212, 204, 0.02) 0%, rgba(0, 184, 177, 0.02) 100%);
+        }
+
+        .recommendation-box:first-of-type h3 {
+            color: #00B8B1;
+        }
+
+        #migrationPathRecommendation h4 {
+            color: #333;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #migrationPathRecommendation h4:before {
+            content: "→ ";
+            color: #00D4CC;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .tab-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00D4CC 0%, #00B8B1 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background: #51cf66;
+            color: white;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #dee2e6;
+            border-radius: 5px;
+            margin: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88 0%, #00D4CC 100%);
+            transition: width 0.5s ease;
+        }
+
+        .notes-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fffbf0;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs { flex-wrap: wrap; }
+            .nav-tab { flex: 1 0 50%; text-align: center; }
+            .score-display { grid-template-columns: 1fr; }
+        }
+
+        .quick-insights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .insight-card {
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .insight-card h4 {
+            color: #667;
+            margin-bottom: 8px;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .insight-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin: 6px 0;
+        }
+
+        /* Section styling matching export format */
+        .section {
+            padding: 24px 28px;
+            border-top: 1px solid #eef2f7;
+        }
+
+        .section h2 {
+            color: #00B8B1;
+            margin: 0 0 14px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .content-box {
+            background: #fff;
+            border: 1px solid #eef2f7;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .content-box ul, .content-box ol {
+            margin: 0 0 0 20px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 14px;
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            background: #fffbf0;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        /* Update score-card to match export grid card style */
+        .score-card {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .score-label {
+            color: #667;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        .score-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 6px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MKE/MSR Migration Assessment Tool</h1>
+            <p class="subtitle">Comprehensive analysis for Docker Enterprise to Mirantis Kubernetes Engine migration</p>
+        </header>
+
+        <!-- Preliminary Sizing Disclaimer -->
+        <div class="disclaimer-banner">
+            <div>
+                <strong>Disclaimer:</strong> This assessment provides initial estimates for planning purposes only. All timelines, effort levels, and recommendations are indicative and subject to change following a detailed discovery engagement. This tool does not constitute a statement of work or contractual commitment.
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('overview')">Overview</button>
+            <button class="nav-tab" onclick="switchTab('environment')">Environment</button>
+            <button class="nav-tab" onclick="switchTab('workloads')">Workloads</button>
+            <button class="nav-tab" onclick="switchTab('teams')">Teams & Skills</button>
+            <button class="nav-tab" onclick="switchTab('processes')">Processes</button>
+            <button class="nav-tab" id="msrConfigTab" onclick="switchTab('msrconfig')" style="display:none;">MSR Configuration</button>
+            <button class="nav-tab" onclick="switchTab('integration')">Migration</button>
+            <button class="nav-tab" onclick="switchTab('summary')">Summary & Recommendations</button>
+        </div>
+
+        <div class="content">
+            <div class="progress-indicator">
+                <span>Assessment Progress</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 14%;"></div>
+                </div>
+                <span id="progressText">1 of 7</span>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="section">
+                    <h2>Customer Information</h2>
+
+                    <div class="question-group">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" placeholder="Enter company name">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Industry</label>
+                        <select id="industry">
+                            <option value="">Select industry...</option>
+                            <option value="financial">Financial Services</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="retail">Retail</option>
+                            <option value="technology">Technology</option>
+                            <option value="government">Government</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Company Size</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="companySize" value="small" id="size-small">
+                                <label for="size-small">< 100 employees</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="companySize" value="medium" id="size-medium">
+                                <label for="size-medium">100-1000 employees</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="companySize" value="large" id="size-large">
+                                <label for="size-large">1000-10000 employees</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="companySize" value="enterprise" id="size-enterprise">
+                                <label for="size-enterprise">> 10000 employees</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Primary Migration Driver</label>
+                        <select id="migrationDriver">
+                            <option value="">Select primary driver...</option>
+                            <option value="eol">Support ending (EOL)</option>
+                            <option value="cost">Cost reduction</option>
+                            <option value="features">New features needed</option>
+                            <option value="tech-debt">Technical debt</option>
+                            <option value="compliance">Compliance requirements</option>
+                            <option value="performance">Performance issues</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment Tab -->
+            <div id="environment" class="tab-content">
+                <div class="section">
+                    <h2>Current Infrastructure</h2>
+
+                    <div class="question-group">
+                        <label>MSR Version</label>
+                        <select id="msrVersion" onchange="checkCriticalFactors();">
+                            <option value="">Select version...</option>
+                            <option value="2.9">MSR 2.9 (Swarm-based)</option>
+                            <option value="3.0">MSR 3.0 (K8s, EOL)</option>
+                            <option value="3.1-k8s">MSR 3.1 on Kubernetes</option>
+                            <option value="3.1-swarm">MSR 3.1 on Swarm</option>
+                            <option value="none">No MSR</option>
+                            <option value="4.0">MSR 4.0 (Harbor)</option>
+                        </select>
+                    </div>
+
+                    <div class="question-group">
+                        <label>MKE Version</label>
+                        <select id="mkeVersion" onchange="checkCriticalFactors();">
+                            <option value="">Select version...</option>
+                            <option value="3.6">MKE 3.6.x</option>
+                            <option value="3.7">MKE 3.7.x</option>
+                            <option value="3.8">MKE 3.8.x (Current)</option>
+                            <option value="4.0">MKE 4.0 (K8s only)</option>
+                        </select>
+                    </div>
+
+                    <div id="msrAlert" class="critical-flag" style="display: none;">
+                        <h4>⚠️ Critical Alert</h4>
+                        <p>MSR 3.0 is already End of Life! Immediate migration required.</p>
+                    </div>
+
+                    <div id="mkeCompatibilityAlert" class="critical-flag" style="display: none;">
+                        <h4>⚠️ Compatibility Warning</h4>
+                        <p id="mkeCompatibilityMessage"></p>
+                    </div>
+
+                    <div class="question-group" id="mkeInstancesGroup" style="display: none;">
+                        <label>Number of MKE Instances</label>
+                        <input type="number" id="clusterCount" min="1" value="0">
+                    </div>
+
+                    <div class="question-group" id="msrInstancesGroup" style="display: none;">
+                        <label>Number of MSR Instances/Deployments</label>
+                        <input type="number" id="msrInstanceCount" min="0" value="0">
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Each MSR deployment requires separate migration effort
+                        </small>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Total Nodes (All MKE Instances)</label>
+                        <input type="number" id="nodeCount" min="1" placeholder="Total worker + manager nodes">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Environment Type</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="env-prod" checked>
+                                <label for="env-prod">Production</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="env-staging">
+                                <label for="env-staging">Staging</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="env-dev">
+                                <label for="env-dev">Development</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Infrastructure Location</label>
+                        <select id="infraLocation">
+                            <option value="onprem">On-premises</option>
+                            <option value="aws">AWS</option>
+                            <option value="azure">Azure</option>
+                            <option value="gcp">Google Cloud</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="multi">Multi-cloud</option>
+                        </select>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Air-Gapped Environment?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="msrAirGapped">
+                                <label for="msrAirGapped">Environment has no internet access (MKE + MSR air-gapped)</label>
+                            </div>
+                        </div>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Air-gapped environments require offline installation procedures, image pre-positioning, and manual data transfer.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workloads Tab -->
+            <div id="workloads" class="tab-content">
+                <div class="section">
+                    <h2>Workload Distribution</h2>
+
+                    <div class="question-group">
+                        <label>Kubernetes Workloads (%)</label>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="100" value="50" class="slider" id="k8sPercent" oninput="updateWorkloadSplit();">
+                            <span class="slider-value" id="k8sValue">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Swarm Workloads (%)</label>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="100" value="50" class="slider" id="swarmPercent" oninput="updateWorkloadSplitFromSwarm();">
+                            <span class="slider-value" id="swarmValue">50%</span>
+                        </div>
+                    </div>
+
+                    <div id="swarmAlert" class="critical-flag" style="display: none;">
+                        <h4 id="swarmAlertTitle">⚠️ Swarm Conversion Risk</h4>
+                        <p id="swarmAlertMessage">High Swarm workload requires adequate team capabilities.</p>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Total Number of Applications/Services</label>
+                        <input type="number" id="totalApps" min="1" placeholder="Approximate total">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Criticality Breakdown</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="font-weight: normal;">Mission Critical (%)</label>
+                                <input type="number" id="criticalPercent" min="0" max="100" placeholder="Cannot tolerate downtime">
+                            </div>
+                            <div>
+                                <label style="font-weight: normal;">Business Critical (%)</label>
+                                <input type="number" id="businessPercent" min="0" max="100" placeholder="Minimal downtime">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Workload Types (Check all that apply)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="type-web">
+                                <label for="type-web">Web Applications</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="type-api">
+                                <label for="type-api">APIs/Microservices</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="type-db">
+                                <label for="type-db">Databases</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="type-batch">
+                                <label for="type-batch">Batch/Cron Jobs</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="type-ml">
+                                <label for="type-ml">ML/AI Workloads</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="type-legacy">
+                                <label for="type-legacy">Legacy Applications</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teams & Skills Tab -->
+            <div id="teams" class="tab-content">
+                <div class="section">
+                    <h2>Team Structure & Capabilities</h2>
+
+                    <div class="question-group">
+                        <label>Platform Team Size</label>
+                        <input type="number" id="platformTeamSize" min="0" placeholder="Number of people managing MKE/MSR">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Number of Application Teams</label>
+                        <input type="number" id="appTeamCount" min="1" placeholder="Teams deploying to platform">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Kubernetes Experience (Platform Team)</label>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="5" value="3" class="slider" id="k8sExperience" oninput="updateK8sExperience();">
+                            <span class="slider-value" id="k8sExpValue">3 (Intermediate)</span>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Can you dedicate a team to migration?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="dedicatedTeam" value="yes" id="team-yes">
+                                <label for="team-yes">Yes, full-time</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="dedicatedTeam" value="partial" id="team-partial">
+                                <label for="team-partial">Partially (50%)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="dedicatedTeam" value="no" id="team-no">
+                                <label for="team-no">No dedicated resources</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Previous Migration Experience</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="migrationExp" value="none" id="exp-none">
+                                <label for="exp-none">None</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="migrationExp" value="some" id="exp-some">
+                                <label for="exp-some">Some similar projects</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="migrationExp" value="extensive" id="exp-extensive">
+                                <label for="exp-extensive">Multiple successful migrations</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Training Needs</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="train-k8s">
+                                <label for="train-k8s">Kubernetes Fundamentals</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="train-migration">
+                                <label for="train-migration">Migration Best Practices</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="train-msr4">
+                                <label for="train-msr4">MSR 4 (Harbor)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="train-gitops">
+                                <label for="train-gitops">GitOps</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Processes Tab -->
+            <div id="processes" class="tab-content">
+                <div class="section">
+                    <h2>Development & Operations</h2>
+
+                    <div class="question-group">
+                        <label>CI/CD Tools</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ci-jenkins">
+                                <label for="ci-jenkins">Jenkins</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ci-gitlab">
+                                <label for="ci-gitlab">GitLab CI</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ci-github">
+                                <label for="ci-github">GitHub Actions</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ci-azure">
+                                <label for="ci-azure">Azure DevOps</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ci-argo">
+                                <label for="ci-argo">ArgoCD</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ci-manual">
+                                <label for="ci-manual">Manual Deployments</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Deployment Automation Level</label>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="100" value="50" class="slider" id="automationLevel" oninput="updateAutomationLevel();">
+                            <span class="slider-value" id="autoValue">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Deployment Frequency (Production)</label>
+                        <select id="deployFrequency">
+                            <option value="multiple-daily">Multiple times per day</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="biweekly">Bi-weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                        </select>
+                    </div>
+
+                    <div class="question-group">
+                        <label>GitOps Practices</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="gitops" value="full" id="gitops-full">
+                                <label for="gitops-full">Fully GitOps</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="gitops" value="partial" id="gitops-partial">
+                                <label for="gitops-partial">Partial GitOps</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="gitops" value="none" id="gitops-none">
+                                <label for="gitops-none">No GitOps</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Configuration Management</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="config-helm">
+                                <label for="config-helm">Helm</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="config-kustomize">
+                                <label for="config-kustomize">Kustomize</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="config-terraform">
+                                <label for="config-terraform">Terraform</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="config-ansible">
+                                <label for="config-ansible">Ansible</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="config-manual">
+                                <label for="config-manual">Manual/Scripts</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MSR Configuration Tab (shown conditionally) -->
+            <div id="msrconfig" class="tab-content">
+                <div class="section">
+                    <h2>Registry Scale</h2>
+
+                    <div class="question-group">
+                        <label>Total BLOB Storage Size (TB)</label>
+                        <input type="number" id="blobStorageTB" min="0" step="0.1" value="1" onchange="calculateScores();">
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Total storage used by container images across all registries
+                        </small>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Average Image Size (MB)</label>
+                        <input type="number" id="avgImageSizeMB" min="1" value="500">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Number of Organizations</label>
+                        <input type="number" id="orgCount" min="1" value="10">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Average Repos per Organization</label>
+                        <input type="number" id="avgReposPerOrg" min="1" value="20">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Min/Max Repos per Organization</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <input type="number" id="minReposPerOrg" min="1" value="5" placeholder="Min">
+                            <input type="number" id="maxReposPerOrg" min="1" value="100" placeholder="Max">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Average Tags per Repo</label>
+                        <input type="number" id="avgTagsPerRepo" min="1" value="15">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Number of User Accounts</label>
+                        <input type="number" id="userAccountCount" min="1" value="50">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Number of Teams</label>
+                        <input type="number" id="teamCount" min="1" value="10">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Teams per Organization</label>
+                        <input type="number" id="teamsPerOrg" min="1" value="3">
+                    </div>
+
+                    <div class="question-group">
+                        <label>Workloads Accessing Registry</label>
+                        <input type="number" id="workloadsAccessingRegistry" min="1" value="50">
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Number of applications/services that pull from this registry
+                        </small>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Registry Performance</h2>
+
+                    <div class="question-group">
+                        <label>Max Pull Throughput (images/hour)</label>
+                        <input type="number" id="maxPullThroughput" min="0" value="1000" onchange="calculateScores();">
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Peak observed image pull rate
+                        </small>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Max Concurrent Pulls Observed</label>
+                        <input type="number" id="maxConcurrentPulls" min="0" value="50">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Destination Infrastructure (MSR4)</h2>
+
+                    <div class="question-group">
+                        <label>MSR4 Deployment Location</label>
+                        <select id="msr4Location" onchange="checkMsrConfigWarnings(); calculateScores();">
+                            <option value="same-cluster">Same MKE cluster (recommended)</option>
+                            <option value="different-cluster">Different/dedicated cluster</option>
+                            <option value="external">External (public cloud or remote)</option>
+                        </select>
+                        <div id="msr4LocationWarning" class="config-warning" style="display: none; margin-top: 8px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Network Performance (Source → Destination)</label>
+                        <select id="networkPerformance" onchange="checkMsrConfigWarnings(); calculateScores();">
+                            <option value="same-subnet">Same subnet (optimal)</option>
+                            <option value="same-datacenter">Same datacenter</option>
+                            <option value="cross-datacenter">Cross datacenter</option>
+                            <option value="cross-region">Cross region</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Network path between current MSR and destination MSR4
+                        </small>
+                        <div id="networkPerformanceWarning" class="config-warning" style="display: none; margin-top: 8px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>PostgreSQL Deployment for MSR4</label>
+                        <select id="postgresDeployment" onchange="checkMsrConfigWarnings(); calculateScores();">
+                            <option value="in-cluster">In-cluster (MSR-managed, recommended)</option>
+                            <option value="external-managed">External managed (RDS, Cloud SQL, Azure DB)</option>
+                            <option value="external-self-managed">External self-managed</option>
+                        </select>
+                        <div id="postgresDeploymentWarning" class="config-warning" style="display: none; margin-top: 8px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Redis Deployment for MSR4</label>
+                        <select id="redisDeployment" onchange="checkMsrConfigWarnings(); calculateScores();">
+                            <option value="in-cluster-zalando">In-cluster Zalando operator (recommended)</option>
+                            <option value="in-cluster-bitnami">In-cluster Bitnami</option>
+                            <option value="external-managed">External managed (ElastiCache, Azure Cache)</option>
+                            <option value="external-self-managed">External self-managed</option>
+                        </select>
+                        <div id="redisDeploymentWarning" class="config-warning" style="display: none; margin-top: 8px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Storage for PostgreSQL</label>
+                        <select id="postgresStorage" onchange="checkMsrConfigWarnings(); calculateScores();">
+                            <option value="local-ssd">Local SSD (best performance)</option>
+                            <option value="cloud-block">Cloud block storage (EBS/Azure Disk)</option>
+                            <option value="san">SAN/Dell Storage</option>
+                            <option value="nfs">NFS</option>
+                        </select>
+                        <div id="postgresStorageWarning" class="config-warning" style="display: none; margin-top: 8px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Storage for BLOB (Container Images)</label>
+                        <select id="blobStorage" onchange="checkMsrConfigWarnings(); calculateScores();">
+                            <option value="s3">AWS S3 (recommended for AWS)</option>
+                            <option value="azure-blob">Azure Blob Storage</option>
+                            <option value="gcs">Google Cloud Storage</option>
+                            <option value="nfs">NFS (on-premises)</option>
+                            <option value="local">Local storage (non-HA)</option>
+                        </select>
+                        <div id="blobStorageWarning" class="config-warning" style="display: none; margin-top: 8px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration Tab -->
+            <div id="integration" class="tab-content">
+                <div class="section">
+                    <h2>Migration</h2>
+
+                    <div class="question-group">
+                        <label>Authentication Method</label>
+                        <select id="authMethod" onchange="checkAuthMethod(); checkFeatureWarnings()">
+                            <option value="local">Local Users</option>
+                            <option value="ldap">LDAP/Active Directory</option>
+                            <option value="saml">SAML</option>
+                            <option value="oidc">OIDC</option>
+                        </select>
+                    </div>
+
+                    <div id="samlAlert" class="critical-flag" style="display: none;">
+                        <h4>⚠️ SAML Migration Required</h4>
+                        <p>MSR 4 doesn't support SAML. You'll need to implement OIDC.</p>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Features (MSR3 vs MSR4)</label>
+                        <table style="width:100%; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left; padding:8px; border-bottom:1px solid #dee2e6; width:50%;">Feature Name</th>
+                                    <th style="text-align:center; padding:8px 0; border-bottom:1px solid #dee2e6; width:25%;">Used in MSR3</th>
+                                    <th style="text-align:center; padding:8px 0; border-bottom:1px solid #dee2e6; width:25%;">Required in MSR4</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Vulnerability Scanning</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-scanning" onchange="checkFeatureWarnings()"><label for="feat-current-scanning"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-scanning" onchange="checkFeatureWarnings()"><label for="feat-required-scanning"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Image Signing ⚠️ [Notary-v1 vs CoSign]</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-signing" onchange="checkFeatureWarnings()"><label for="feat-current-signing"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-signing" onchange="checkFeatureWarnings()"><label for="feat-required-signing"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Image Promotion Policies ⚠️ [Not available in MSR4]</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-promotion" onchange="checkFeatureWarnings()"><label for="feat-current-promotion"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-promotion" onchange="checkFeatureWarnings()"><label for="feat-required-promotion"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Authentication Tokens</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-robots" onchange="checkFeatureWarnings()"><label for="feat-current-robots"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-robots" onchange="checkFeatureWarnings()"><label for="feat-required-robots"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Webhooks</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-webhooks" onchange="checkFeatureWarnings()"><label for="feat-current-webhooks"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-webhooks" onchange="checkFeatureWarnings()"><label for="feat-required-webhooks"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Image Immutability</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-immutable" onchange="checkFeatureWarnings()"><label for="feat-current-immutable"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-immutable" onchange="checkFeatureWarnings()"><label for="feat-required-immutable"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Replication</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-replication" onchange="checkFeatureWarnings()"><label for="feat-current-replication"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-replication" onchange="checkFeatureWarnings()"><label for="feat-required-replication"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">RBAC ⚠️ [MSR4 schema differs]</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-rbac" onchange="checkFeatureWarnings()"><label for="feat-current-rbac"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-rbac" onchange="checkFeatureWarnings()"><label for="feat-required-rbac"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Backup/Restore</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-backup" onchange="checkFeatureWarnings()"><label for="feat-current-backup"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-backup" onchange="checkFeatureWarnings()"><label for="feat-required-backup"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Storage Quotas & Limits</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-quotas" onchange="checkFeatureWarnings()"><label for="feat-current-quotas"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-quotas" onchange="checkFeatureWarnings()"><label for="feat-required-quotas"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Audit Logs</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-current-audit" onchange="checkFeatureWarnings()"><label for="feat-current-audit"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="feat-required-audit" onchange="checkFeatureWarnings()"><label for="feat-required-audit"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px;">Data Encryption at Rest</td>
+                                    <td style="text-align:center;"><div class="checkbox-item"><input type="checkbox" id="feat-current-encryption" onchange="checkFeatureWarnings()"><label for="feat-current-encryption"></label></div></td>
+                                    <td style="text-align:center;"><div class="checkbox-item"><input type="checkbox" id="feat-required-encryption" onchange="checkFeatureWarnings()"><label for="feat-required-encryption"></label></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <small style="color: #666; display: block; margin-top: 10px;">
+                            ⚠️ = Requires special attention during migration
+                        </small>
+                    </div>
+
+                    <div class="question-group">
+                        <label>Monitoring & Observability</label>
+                        <table style="width:100%; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left; padding:8px; border-bottom:1px solid #dee2e6; width:40%;">Tool</th>
+                                    <th style="text-align:center; padding:8px 0; border-bottom:1px solid #dee2e6; width:30%;">Currently Deployed</th>
+                                    <th style="text-align:center; padding:8px 0; border-bottom:1px solid #dee2e6; width:30%;">MSR4 Integration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">Prometheus/Grafana</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="mon-msr3-prometheus"><label for="mon-msr3-prometheus"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="mon-msr4-prometheus"><label for="mon-msr4-prometheus"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">ELK Stack</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="mon-msr3-elk"><label for="mon-msr3-elk"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="mon-msr4-elk"><label for="mon-msr4-elk"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #f0f0f0;">DataDog</td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="mon-msr3-datadog"><label for="mon-msr3-datadog"></label></div></td>
+                                    <td style="text-align:center; border-bottom:1px solid #f0f0f0;"><div class="checkbox-item"><input type="checkbox" id="mon-msr4-datadog"><label for="mon-msr4-datadog"></label></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px;">Splunk</td>
+                                    <td style="text-align:center;"><div class="checkbox-item"><input type="checkbox" id="mon-msr3-splunk"><label for="mon-msr3-splunk"></label></div></td>
+                                    <td style="text-align:center;"><div class="checkbox-item"><input type="checkbox" id="mon-msr4-splunk"><label for="mon-msr4-splunk"></label></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <small style="color: #666; display: block; margin-top: 10px;">
+                            Select monitoring tools currently deployed and those planned for MSR4 integration
+                        </small>
+                    </div>
+
+                    <!-- Dynamic Feature Warnings -->
+                    <div id="validation-warnings" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary" class="tab-content">
+                <!-- Summary Card -->
+                <div class="section">
+                    <h2>Summary</h2>
+                    <div class="content-box">
+                        <!-- Assessment Results Subsection -->
+                        <div style="margin-bottom: 24px;">
+                            <h3 style="font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0;">Assessment Results</h3>
+                            <div class="score-display">
+                                <div class="score-card">
+                                    <div class="score-label">Complexity</div>
+                                    <div class="score-value" id="complexityScore">--</div>
+                                    <div id="complexityLevel">Complete assessment to view results</div>
+                                </div>
+                                <div class="score-card">
+                                    <div class="score-label">Readiness</div>
+                                    <div class="score-value" id="readinessScore">--</div>
+                                    <div id="readinessLevel">Complete assessment to view results</div>
+                                </div>
+                                <div class="score-card">
+                                    <div class="score-label">Engagement Model</div>
+                                    <div class="score-value" id="engagementModel" style="font-size:18px; line-height:1.3;">--</div>
+                                    <div id="engagementApproach" style="font-size:11px; color:#00B8B1; margin-top:4px;">Complete assessment</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Migration Plan Subsection -->
+                        <div style="margin-bottom: 24px;">
+                            <h3 style="font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0;">Migration Plan</h3>
+                            <div class="score-display">
+                                <div class="score-card">
+                                    <div class="score-label">Timeline</div>
+                                    <div class="score-value" id="timelineEstimate">--</div>
+                                    <div style="margin-top:-6px; margin-bottom:4px;">weeks</div>
+                                    <div id="timelineMonths" style="font-size:12px; color:#667;">-- months</div>
+                                </div>
+                                <div class="score-card">
+                                    <div class="score-label">PS Effort</div>
+                                    <div class="score-value" id="psEffortPercent">--</div>
+                                    <div style="margin-top:-6px; margin-bottom:4px;">weeks</div>
+                                    <div id="psEffortMonths" style="font-size:12px; color:#667;">-- months billable</div>
+                                </div>
+                                <div class="score-card">
+                                    <div class="score-label">Strategy</div>
+                                    <div class="score-value" id="migrationStrategy" style="font-size:18px; line-height:1.3;">--</div>
+                                    <div id="migrationPath" style="font-size:11px; color:#00B8B1; margin-top:4px;">Complete assessment</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Your Environment Subsection -->
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0;">Your Environment</h3>
+                            <div class="score-display">
+                                <div class="score-card">
+                                    <div class="score-label">Workload Mix</div>
+                                    <div class="score-value" id="swarmSummary" style="font-size:24px;">--%</div>
+                                    <div id="k8sSummary" style="font-size:12px; color:#667; margin-top:4px;">--% Kubernetes</div>
+                                </div>
+                                <div class="score-card">
+                                    <div class="score-label">Automation</div>
+                                    <div class="score-value" id="automationSummary">--%</div>
+                                    <div id="deployFreq" style="font-size:12px; color:#667; margin-top:4px;">-- deploys</div>
+                                </div>
+                                <div class="score-card">
+                                    <div class="score-label">Team Size</div>
+                                    <div class="score-value" id="teamSize">--</div>
+                                    <div id="teamDedication" style="font-size:12px; color:#667; margin-top:4px;">-- dedicated</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Migration Strategy</h2>
+                    <div class="content-box" id="migrationPathRecommendation">
+                        <p>Complete the assessment to receive migration strategy recommendations...</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Risk Assessment</h2>
+                    <div class="content-box">
+                        <ul id="riskFactors">
+                            <li>Complete assessment to identify risks...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Migration Phases</h2>
+                    <div class="content-box">
+                        <ul id="priorityActions" style="list-style: none; padding-left: 0;">
+                            <li>Complete assessment for action items...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Additional Notes</h2>
+                    <textarea id="additionalNotes" class="notes-textarea" placeholder="Capture any additional context, concerns, or requirements discussed during the assessment..."></textarea>
+                </div>
+
+                <div class="button-group" style="padding: 20px 28px;">
+                    <button class="btn-secondary" onclick="exportSummaryHtml()">Export Summary (HTML)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-nav">
+            <button class="btn-secondary" id="prevTabBtn" onclick="goToPrevTab()">Previous</button>
+            <button class="btn-primary" id="nextTabBtn" onclick="goToNextTab()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab management
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.querySelectorAll('.nav-tab').forEach(navTab => {
+                navTab.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+
+            const tabs = ['overview', 'environment', 'workloads', 'teams', 'processes', 'msrconfig', 'integration', 'summary'];
+            const currentIndex = tabs.indexOf(tabName);
+            const navButtons = document.querySelectorAll('.nav-tab');
+            if (navButtons && navButtons[currentIndex]) {
+                navButtons[currentIndex].classList.add('active');
+            }
+
+            // Update progress
+            const msrConfigTab = document.getElementById('msrConfigTab');
+            const isMsrConfigVisible = msrConfigTab && msrConfigTab.style.display !== 'none';
+            const visibleTabs = isMsrConfigVisible ? tabs : tabs.filter(t => t !== 'msrconfig');
+            const visibleIndex = visibleTabs.indexOf(tabName) + 1;
+
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            if (progressBar && progressText) {
+                progressBar.style.width = `${(visibleIndex / visibleTabs.length) * 100}%`;
+                progressText.textContent = `${visibleIndex} of ${visibleTabs.length}`;
+            }
+
+            // Calculate scores if on summary tab
+            if (tabName === 'summary') {
+                calculateScores();
+            }
+
+            const visibleIndexZeroBased = visibleTabs.indexOf(tabName);
+            updateNavButtons(visibleIndexZeroBased, visibleTabs.length);
+        }
+
+        function getVisibleTabs() {
+            const allTabs = ['overview', 'environment', 'workloads', 'teams', 'processes', 'msrconfig', 'integration', 'summary'];
+            const msrConfigTab = document.getElementById('msrConfigTab');
+            const isMsrConfigVisible = msrConfigTab && msrConfigTab.style.display !== 'none';
+            return isMsrConfigVisible ? allTabs : allTabs.filter(t => t !== 'msrconfig');
+        }
+
+        function getCurrentTabIndex() {
+            const tabs = getVisibleTabs();
+            const active = document.querySelector('.tab-content.active');
+            if (!active) return 0;
+            return Math.max(0, tabs.indexOf(active.id));
+        }
+
+        function goToPrevTab() {
+            const tabs = getVisibleTabs();
+            const idx = getCurrentTabIndex();
+            if (idx > 0) {
+                switchTab(tabs[idx - 1]);
+            }
+        }
+
+        function goToNextTab() {
+            const tabs = getVisibleTabs();
+            const idx = getCurrentTabIndex();
+            if (idx < tabs.length - 1) {
+                switchTab(tabs[idx + 1]);
+            }
+        }
+
+        function updateNavButtons(currentIndexZeroBased, total) {
+            const prevBtn = document.getElementById('prevTabBtn');
+            const nextBtn = document.getElementById('nextTabBtn');
+            if (prevBtn) prevBtn.disabled = currentIndexZeroBased <= 0;
+            if (nextBtn) nextBtn.disabled = currentIndexZeroBased >= total - 1;
+        }
+
+        // Check for Swarm conversion risks (context-aware)
+        function checkSwarmConversionRisk() {
+            const swarmPercent = parseInt(document.getElementById('swarmPercent').value);
+            const k8sExperience = parseInt(document.getElementById('k8sExperience').value) || 3;
+            const automationLevel = parseInt(document.getElementById('automationLevel').value) || 50;
+
+            const alertDiv = document.getElementById('swarmAlert');
+            const alertTitle = document.getElementById('swarmAlertTitle');
+            const alertMessage = document.getElementById('swarmAlertMessage');
+
+            let showAlert = false;
+            let title = '';
+            let message = '';
+
+            // Risk: High Swarm with low K8s expertise
+            if (swarmPercent > 60 && k8sExperience <= 2) {
+                showAlert = true;
+                title = '⚠️ Swarm Conversion Risk: Limited K8s Expertise';
+                message = `${swarmPercent}% Swarm workload with limited Kubernetes experience (${k8sExperience}/5) increases conversion complexity. Consider upskilling or additional PS support.`;
+            }
+            // Risk: High Swarm with low automation
+            else if (swarmPercent > 50 && automationLevel < 40) {
+                showAlert = true;
+                title = '⚠️ Swarm Conversion Risk: Low Automation';
+                message = `Converting ${swarmPercent}% Swarm workloads manually (${automationLevel}% automation) increases risk. Consider improving automation before migration.`;
+            }
+            // Informational: High Swarm but capable team
+            else if (swarmPercent > 70) {
+                showAlert = true;
+                title = 'High Swarm Workload';
+                message = `${swarmPercent}% Swarm workloads will extend timeline.`;
+                alertDiv.style.backgroundColor = '#fff8e1'; // Light amber
+                alertDiv.style.borderColor = '#FFB800'; // Amber/yellow-orange
+            }
+
+            if (showAlert) {
+                alertTitle.textContent = title;
+                alertMessage.textContent = message;
+                alertDiv.style.display = 'block';
+                // Reset colors if not informational
+                if (swarmPercent <= 70 || k8sExperience <= 2 || automationLevel < 40) {
+                    alertDiv.style.backgroundColor = '#fee';
+                    alertDiv.style.borderColor = '#dc3545';
+                }
+            } else {
+                alertDiv.style.display = 'none';
+            }
+        }
+
+        // Workload split management
+        function updateWorkloadSplit() {
+            const k8sPercent = document.getElementById('k8sPercent').value;
+            const swarmPercent = 100 - k8sPercent;
+
+            document.getElementById('k8sValue').textContent = k8sPercent + '%';
+            document.getElementById('swarmPercent').value = swarmPercent;
+            document.getElementById('swarmValue').textContent = swarmPercent + '%';
+
+            checkSwarmConversionRisk();
+        }
+
+        function updateWorkloadSplitFromSwarm() {
+            const swarmPercent = document.getElementById('swarmPercent').value;
+            const k8sPercent = 100 - swarmPercent;
+
+            document.getElementById('swarmValue').textContent = swarmPercent + '%';
+            document.getElementById('k8sPercent').value = k8sPercent;
+            document.getElementById('k8sValue').textContent = k8sPercent + '%';
+
+            checkSwarmConversionRisk();
+        }
+
+        // Critical factors check
+        function checkCriticalFactors() {
+            const msrVersion = document.getElementById('msrVersion').value;
+            const mkeVersion = document.getElementById('mkeVersion').value;
+
+            // MSR 3.0 EOL check
+            if (msrVersion === '3.0') {
+                document.getElementById('msrAlert').style.display = 'block';
+            } else {
+                document.getElementById('msrAlert').style.display = 'none';
+            }
+
+            // MKE/MSR compatibility check
+            let compatibilityWarning = '';
+            if (msrVersion && mkeVersion) {
+                if (msrVersion === '3.0' && (mkeVersion === '3.8' || mkeVersion === '4.0')) {
+                    compatibilityWarning = 'MSR 3.0 does not support MKE 3.8.x or MKE 4.0. Maximum supported is MKE 3.7.x.';
+                } else if (msrVersion === '2.9' && mkeVersion === '4.0') {
+                    compatibilityWarning = 'MSR 2.9 cannot run on MKE 4.0. Must migrate to MSR 4.0 first.';
+                } else if (msrVersion === '3.1-swarm' && mkeVersion === '4.0') {
+                    compatibilityWarning = 'MSR 3.1 on Swarm cannot run on MKE 4.0 (which is Kubernetes-only).';
+                } else if (mkeVersion === '4.0' && msrVersion !== '4.0' && msrVersion !== 'none') {
+                    compatibilityWarning = 'MKE 4.0 is Kubernetes-only. Legacy MSR versions require migration to MSR 4.0.';
+                }
+            }
+
+            if (compatibilityWarning) {
+                document.getElementById('mkeCompatibilityMessage').textContent = compatibilityWarning;
+                document.getElementById('mkeCompatibilityAlert').style.display = 'block';
+            } else {
+                document.getElementById('mkeCompatibilityAlert').style.display = 'none';
+            }
+
+            // Show/hide MSR Configuration tab
+            const showMSRConfig = msrVersion && msrVersion !== 'none' && msrVersion !== '4.0';
+            const msrConfigTab = document.getElementById('msrConfigTab');
+            if (msrConfigTab) {
+                msrConfigTab.style.display = showMSRConfig ? 'block' : 'none';
+            }
+
+            // Show/hide MKE instances field based on MKE version selection
+            const mkeInstancesGroup = document.getElementById('mkeInstancesGroup');
+            const clusterCountInput = document.getElementById('clusterCount');
+            if (mkeVersion && mkeVersion !== '') {
+                mkeInstancesGroup.style.display = 'block';
+                // Set default to 1 if currently 0 when shown
+                if (clusterCountInput.value === '0' || clusterCountInput.value === '') {
+                    clusterCountInput.value = '1';
+                }
+            } else {
+                mkeInstancesGroup.style.display = 'none';
+                clusterCountInput.value = '0';
+            }
+
+            // Show/hide MSR instances field based on MSR version selection
+            const msrInstancesGroup = document.getElementById('msrInstancesGroup');
+            const msrInstanceCountInput = document.getElementById('msrInstanceCount');
+            if (msrVersion && msrVersion !== '' && msrVersion !== 'none') {
+                msrInstancesGroup.style.display = 'block';
+                // Set default to 1 if currently 0 when shown
+                if (msrInstanceCountInput.value === '0' || msrInstanceCountInput.value === '') {
+                    msrInstanceCountInput.value = '1';
+                }
+            } else {
+                msrInstancesGroup.style.display = 'none';
+                msrInstanceCountInput.value = '0';
+            }
+        }
+
+        // Check for feature migration warnings
+        function checkFeatureWarnings() {
+            const migrationIssues = [];
+
+            // Check for Image Promotion Policies (not available in MSR4)
+            if (document.getElementById('feat-required-promotion')?.checked) {
+                migrationIssues.push({
+                    type: 'critical',
+                    icon: '🚫',
+                    title: 'Image Promotion Policies Unavailable',
+                    message: 'Image Promotion Policies do not exist in MSR 4 - alternative CI/CD workflows required'
+                });
+            }
+
+            // Check for SAML authentication (from dropdown - not available in MSR4)
+            const authMethod = document.getElementById('authMethod')?.value;
+            if (authMethod === 'saml') {
+                migrationIssues.push({
+                    type: 'critical',
+                    icon: '🚫',
+                    title: 'SAML Authentication Not Supported',
+                    message: 'SAML Authentication is not available in MSR 4 - OIDC migration required'
+                });
+            }
+
+            // Check for Docker Content Trust -> Cosign migration
+            if (document.getElementById('feat-current-signing')?.checked &&
+                document.getElementById('feat-required-signing')?.checked) {
+                migrationIssues.push({
+                    type: 'warning',
+                    icon: '🔄',
+                    title: 'Image Signing Migration Required',
+                    message: 'Docker Content Trust images must be re-signed with Cosign for MSR 4'
+                });
+            }
+
+            // Check for Webhooks reconfiguration
+            if (document.getElementById('feat-current-webhooks')?.checked &&
+                document.getElementById('feat-required-webhooks')?.checked) {
+                migrationIssues.push({
+                    type: 'warning',
+                    icon: '🔄',
+                    title: 'Webhooks Reconfiguration Needed',
+                    message: 'Webhooks require reconfiguration for Harbor API format in MSR 4'
+                });
+            }
+
+            // Check for RBAC schema differences
+            if (document.getElementById('feat-current-rbac')?.checked &&
+                document.getElementById('feat-required-rbac')?.checked) {
+                migrationIssues.push({
+                    type: 'warning',
+                    icon: '⚠️',
+                    title: 'RBAC Schema Changes',
+                    message: 'RBAC implementation differs in MSR 4 - role mappings need review and update'
+                });
+            }
+
+            // Display warnings
+            const warningsDiv = document.getElementById('validation-warnings');
+            if (!warningsDiv) return;
+
+            if (migrationIssues.length === 0) {
+                warningsDiv.style.display = 'none';
+                warningsDiv.innerHTML = '';
+                return;
+            }
+
+            // Build warnings HTML
+            let html = '<div style="margin-top: 20px;">';
+            migrationIssues.forEach(issue => {
+                const bgColor = issue.type === 'critical' ? '#fee' : '#fff3cd';
+                const borderColor = issue.type === 'critical' ? '#f88' : '#ffc107';
+                const textColor = issue.type === 'critical' ? '#c00' : '#856404';
+
+                html += `
+                    <div style="background: ${bgColor}; padding: 15px; margin-bottom: 10px; border-radius: 4px;">
+                        <h4 style="margin: 0 0 8px 0; color: ${textColor}; font-size: 14px; font-weight: 600;">
+                            ${issue.title}
+                        </h4>
+                        <p style="margin: 0; color: ${textColor}; font-size: 13px;">
+                            ${issue.message}
+                        </p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            warningsDiv.innerHTML = html;
+            warningsDiv.style.display = 'block';
+        }
+
+        function checkAuthMethod() {
+            const authMethod = document.getElementById('authMethod')?.value;
+            const samlAlert = document.getElementById('samlAlert');
+
+            if (authMethod === 'saml' && samlAlert) {
+                samlAlert.style.display = 'block';
+            } else if (samlAlert) {
+                samlAlert.style.display = 'none';
+            }
+        }
+
+        // Check MSR Configuration warnings and show inline guidance
+        function checkMsrConfigWarnings() {
+            // MSR4 Location warnings
+            const msr4Location = document.getElementById('msr4Location')?.value;
+            const msr4LocationWarning = document.getElementById('msr4LocationWarning');
+            if (msr4LocationWarning) {
+                if (msr4Location === 'external') {
+                    msr4LocationWarning.innerHTML = '<strong>External Deployment:</strong> Ensure low-latency network connectivity to MKE cluster. Consider VPN or dedicated link. Plan for network redundancy.';
+                    msr4LocationWarning.style.display = 'block';
+                } else if (msr4Location === 'different-cluster') {
+                    msr4LocationWarning.innerHTML = '<strong>Cross-Cluster Deployment:</strong> Validate cross-cluster networking and firewall rules. Ensure service mesh or ingress is configured for registry access.';
+                    msr4LocationWarning.style.display = 'block';
+                } else {
+                    msr4LocationWarning.style.display = 'none';
+                }
+            }
+
+            // Network Performance warnings
+            const networkPerf = document.getElementById('networkPerformance')?.value;
+            const networkWarning = document.getElementById('networkPerformanceWarning');
+            if (networkWarning) {
+                if (networkPerf === 'cross-region') {
+                    networkWarning.innerHTML = '<strong>Cross-Region Latency:</strong> Expect significant impact on image pull performance (100-300ms+ latency). <br><strong>Recommendations:</strong> Consider registry replication, edge caching, or relocating MSR4 closer to workloads.';
+                    networkWarning.style.display = 'block';
+                    networkWarning.style.background = '#f8d7da';
+                    networkWarning.style.borderColor = '#dc3545';
+                } else if (networkPerf === 'cross-datacenter') {
+                    networkWarning.innerHTML = '<strong>Cross-Datacenter Network:</strong> May impact image pull performance (20-50ms latency). <br><strong>Recommendations:</strong> Consider edge caching or pull-through proxy. Monitor network bandwidth during peak usage.';
+                    networkWarning.style.display = 'block';
+                    networkWarning.style.background = '#fff3cd';
+                    networkWarning.style.borderColor = '#ffc107';
+                } else {
+                    networkWarning.style.display = 'none';
+                }
+            }
+
+            // PostgreSQL Deployment warnings
+            const postgresDeployment = document.getElementById('postgresDeployment')?.value;
+            const postgresDeploymentWarning = document.getElementById('postgresDeploymentWarning');
+            if (postgresDeploymentWarning) {
+                if (postgresDeployment === 'external-self-managed') {
+                    postgresDeploymentWarning.innerHTML = '<strong>Self-Managed PostgreSQL:</strong> Requires dedicated DBA resources for backup, patching, HA configuration, and monitoring. <br><strong>Required:</strong> Define backup/recovery procedures, patching schedule, and HA failover plan.';
+                    postgresDeploymentWarning.style.display = 'block';
+                } else if (postgresDeployment === 'external-managed') {
+                    postgresDeploymentWarning.innerHTML = '<strong>Managed PostgreSQL:</strong> Ensure RDS/Cloud SQL instance is in the same region. Configure appropriate instance size and storage IOPS for registry workload.';
+                    postgresDeploymentWarning.style.display = 'block';
+                    postgresDeploymentWarning.style.background = '#d1ecf1';
+                    postgresDeploymentWarning.style.borderColor = '#17a2b8';
+                } else {
+                    postgresDeploymentWarning.style.display = 'none';
+                }
+            }
+
+            // Redis Deployment warnings
+            const redisDeployment = document.getElementById('redisDeployment')?.value;
+            const redisWarning = document.getElementById('redisDeploymentWarning');
+            if (redisWarning) {
+                if (redisDeployment === 'external-self-managed') {
+                    redisWarning.innerHTML = '<strong>Self-Managed Redis:</strong> Requires operational expertise for clustering, persistence, and failover. <br><strong>Required:</strong> Configure Redis Sentinel or Cluster mode for HA. Plan for memory sizing.';
+                    redisWarning.style.display = 'block';
+                } else {
+                    redisWarning.style.display = 'none';
+                }
+            }
+
+            // PostgreSQL Storage warnings
+            const postgresStorage = document.getElementById('postgresStorage')?.value;
+            const postgresStorageWarning = document.getElementById('postgresStorageWarning');
+            if (postgresStorageWarning) {
+                if (postgresStorage === 'nfs') {
+                    postgresStorageWarning.innerHTML = '<strong>NFS for PostgreSQL:</strong> May impact database performance due to network latency and lack of direct I/O. <br><strong>Recommendation:</strong> Consider local SSD or cloud block storage for production workloads.';
+                    postgresStorageWarning.style.display = 'block';
+                } else {
+                    postgresStorageWarning.style.display = 'none';
+                }
+            }
+
+            // Blob Storage warnings
+            const blobStorage = document.getElementById('blobStorage')?.value;
+            const blobWarning = document.getElementById('blobStorageWarning');
+            if (blobWarning) {
+                if (blobStorage === 'local') {
+                    blobWarning.innerHTML = '<strong>Local Storage (Non-HA):</strong> Does not support high availability or horizontal scaling. <br><strong>Recommendation:</strong> Migrate to S3-compatible or cloud blob storage before production. Not suitable for multi-replica deployments.';
+                    blobWarning.style.display = 'block';
+                    blobWarning.style.background = '#f8d7da';
+                    blobWarning.style.borderColor = '#dc3545';
+                } else if (blobStorage === 'nfs') {
+                    blobWarning.innerHTML = '<strong>NFS for Blob Storage:</strong> May limit scalability for large registries. <br><strong>Consideration:</strong> Ensure NFS server can handle concurrent image pulls. Consider S3-compatible storage for better performance.';
+                    blobWarning.style.display = 'block';
+                } else {
+                    blobWarning.style.display = 'none';
+                }
+            }
+        }
+
+        // Update sliders
+        function updateK8sExperience() {
+            const levels = ['None', 'Basic', 'Intermediate', 'Advanced', 'Expert'];
+            const value = document.getElementById('k8sExperience').value;
+            document.getElementById('k8sExpValue').textContent = `${value} (${levels[value-1]})`;
+            checkSwarmConversionRisk(); // Update Swarm warning based on expertise
+        }
+
+        function updateAutomationLevel() {
+            const value = document.getElementById('automationLevel').value;
+            document.getElementById('autoValue').textContent = value + '%';
+            checkSwarmConversionRisk(); // Update Swarm warning based on automation
+        }
+
+        // Collect form data - Field names match Python API expectations
+        function collectFormData() {
+            // Helper function to safely parse integers with default values
+            // This handles the case where 0 is a valid value (not falsy)
+            const parseIntSafe = (value, defaultValue) => {
+                const parsed = parseInt(value);
+                return isNaN(parsed) ? defaultValue : parsed;
+            };
+
+            // Helper to safely parse floats
+            const parseFloatSafe = (value, defaultValue) => {
+                const parsed = parseFloat(value);
+                return isNaN(parsed) ? defaultValue : parsed;
+            };
+
+            // Count training needs checkboxes
+            const trainingCheckboxes = document.querySelectorAll('[id^="train-"]:checked');
+            const trainingNeedsCount = trainingCheckboxes.length;
+
+            // Collect MSR features - current (used in MSR3)
+            const featuresCurrentIds = [
+                'scanning', 'signing', 'promotion', 'saml', 'oidc', 'ldap',
+                'robots', 'webhooks', 'immutable', 'replication', 'rbac',
+                'backup', 'quotas', 'audit', 'encryption'
+            ];
+            const featuresCurrent = featuresCurrentIds
+                .filter(feat => document.getElementById(`feat-current-${feat}`)?.checked)
+                .map(feat => feat);
+
+            // Collect MSR features - required (needed in MSR4)
+            const featuresRequired = featuresCurrentIds
+                .filter(feat => document.getElementById(`feat-required-${feat}`)?.checked)
+                .map(feat => feat);
+
+            return {
+                // Company Info
+                company_name: document.getElementById('companyName')?.value || '',
+                industry: document.getElementById('industry')?.value || '',
+                company_size: document.querySelector('input[name="companySize"]:checked')?.value || '',
+
+                // Environment
+                infra_location: document.getElementById('infraLocation')?.value || 'onprem',
+                environments: (() => {
+                    const envs = [];
+                    if (document.getElementById('env-prod')?.checked) envs.push('production');
+                    if (document.getElementById('env-staging')?.checked) envs.push('staging');
+                    if (document.getElementById('env-dev')?.checked) envs.push('dev');
+                    return envs.length > 0 ? envs : ['production'];
+                })(),
+                // Extract version numbers from dropdown text (e.g., "MSR 3.1 on Kubernetes" -> "3.1")
+                // "none" = No MSR, use "0.0" as placeholder version
+                msr_version: (() => {
+                    const msrElement = document.getElementById('msrVersion');
+                    const msrVersionRaw = msrElement?.value || '';
+                    if (msrVersionRaw === 'none') {
+                        console.log('MSR version: No MSR selected');
+                        return '0.0';  // Placeholder for no MSR
+                    }
+                    const msrVersionMatch = msrVersionRaw.match(/(\d+\.\d+)/);
+                    const result = msrVersionMatch ? msrVersionMatch[1] : '';
+                    console.log('MSR version:', { element: msrElement ? 'found' : 'NOT FOUND', raw: msrVersionRaw, parsed: result });
+                    return result;
+                })(),
+                mke_version: (() => {
+                    const mkeElement = document.getElementById('mkeVersion');
+                    const mkeVersionRaw = mkeElement?.value || '';
+                    const mkeVersionMatch = mkeVersionRaw.match(/(\d+\.\d+)/);
+                    const result = mkeVersionMatch ? mkeVersionMatch[1] : '';
+                    console.log('MKE version:', { element: mkeElement ? 'found' : 'NOT FOUND', raw: mkeVersionRaw, parsed: result });
+                    return result;
+                })(),
+                num_mke_instances: document.getElementById('mkeVersion')?.value ? parseIntSafe(document.getElementById('clusterCount')?.value, 1) : 0,
+                num_msr_instances: (!document.getElementById('msrVersion')?.value || document.getElementById('msrVersion')?.value === 'none') ? 0 : parseIntSafe(document.getElementById('msrInstanceCount')?.value, 1),
+                total_nodes: parseIntSafe(document.getElementById('nodeCount')?.value, 0),
+                app_count: parseIntSafe(document.getElementById('totalApps')?.value, 0),
+                air_gapped: document.getElementById('msrAirGapped')?.checked || false,
+
+                // Workloads
+                swarm_percent: parseIntSafe(document.getElementById('swarmPercent')?.value, 50),
+                kubernetes_percent: parseIntSafe(document.getElementById('k8sPercent')?.value, 50),
+                mission_critical_percent: parseIntSafe(document.getElementById('criticalPercent')?.value, 0),
+                business_critical_percent: parseIntSafe(document.getElementById('businessPercent')?.value, 0),
+
+                // Team & Skills
+                platform_team_size: parseIntSafe(document.getElementById('platformTeamSize')?.value, 0),
+                application_teams: parseIntSafe(document.getElementById('appTeamCount')?.value, 1),
+                k8s_experience: parseIntSafe(document.getElementById('k8sExperience')?.value, 3),
+                migration_exp: document.querySelector('input[name="migrationExp"]:checked')?.value || '',
+                dedicated_team: document.querySelector('input[name="dedicatedTeam"]:checked')?.value || '',
+                training_needs_count: trainingNeedsCount,
+
+                // Processes
+                automation_level: parseIntSafe(document.getElementById('automationLevel')?.value, 50),
+                deploy_frequency: document.getElementById('deployFrequency')?.value || 'weekly',
+
+                // MSR Configuration - Registry Scale
+                blob_storage_tb: parseFloatSafe(document.getElementById('blobStorageTB')?.value, 1.0),
+                avg_image_size_mb: parseIntSafe(document.getElementById('avgImageSizeMB')?.value, 500),
+                org_count: parseIntSafe(document.getElementById('orgCount')?.value, 10),
+                avg_repos_per_org: parseIntSafe(document.getElementById('avgReposPerOrg')?.value, 20),
+                min_repos_per_org: parseIntSafe(document.getElementById('minReposPerOrg')?.value, 5),
+                max_repos_per_org: parseIntSafe(document.getElementById('maxReposPerOrg')?.value, 100),
+                avg_tags_per_repo: parseIntSafe(document.getElementById('avgTagsPerRepo')?.value, 15),
+                user_account_count: parseIntSafe(document.getElementById('userAccountCount')?.value, 50),
+                team_count: parseIntSafe(document.getElementById('teamCount')?.value, 10),
+                teams_per_org: parseIntSafe(document.getElementById('teamsPerOrg')?.value, 3),
+                workloads_accessing_registry: parseIntSafe(document.getElementById('workloadsAccessingRegistry')?.value, 50),
+
+                // MSR Configuration - Performance
+                max_pull_throughput: parseIntSafe(document.getElementById('maxPullThroughput')?.value, 1000),
+                max_concurrent_pulls: parseIntSafe(document.getElementById('maxConcurrentPulls')?.value, 50),
+
+                // MSR Configuration - Destination Infrastructure
+                msr4_location: document.getElementById('msr4Location')?.value || 'same-cluster',
+                network_performance: document.getElementById('networkPerformance')?.value || 'same-subnet',
+                postgresql_deployment: document.getElementById('postgresDeployment')?.value || 'in-cluster',
+                redis_deployment: document.getElementById('redisDeployment')?.value || 'in-cluster-zalando',
+                postgresql_storage: document.getElementById('postgresStorage')?.value || 'local-ssd',
+                blob_storage_type: document.getElementById('blobStorage')?.value || 's3',
+
+                // Integration - Authentication & Features
+                auth_method: document.getElementById('authMethod')?.value || 'local',
+                features_current: featuresCurrent,
+                features_required: featuresRequired,
+
+                // Monitoring & Observability - Current (MSR3)
+                monitoring_current: [
+                    document.getElementById('mon-msr3-prometheus')?.checked ? 'prometheus' : null,
+                    document.getElementById('mon-msr3-elk')?.checked ? 'elk' : null,
+                    document.getElementById('mon-msr3-datadog')?.checked ? 'datadog' : null,
+                    document.getElementById('mon-msr3-splunk')?.checked ? 'splunk' : null
+                ].filter(item => item !== null),
+
+                // Monitoring & Observability - Planned (MSR4)
+                monitoring_planned: [
+                    document.getElementById('mon-msr4-prometheus')?.checked ? 'prometheus' : null,
+                    document.getElementById('mon-msr4-elk')?.checked ? 'elk' : null,
+                    document.getElementById('mon-msr4-datadog')?.checked ? 'datadog' : null,
+                    document.getElementById('mon-msr4-splunk')?.checked ? 'splunk' : null
+                ].filter(item => item !== null)
+            };
+        }
+
+        // Display friendly message when form is incomplete
+        function displayIncompleteFormMessage() {
+            // Complexity section
+            document.getElementById('complexityScore').textContent = '--';
+            document.getElementById('complexityLevel').textContent = 'Please complete the form';
+            document.getElementById('complexityScore').className = 'score-value';
+
+            // Readiness section
+            document.getElementById('readinessScore').textContent = '--';
+            document.getElementById('readinessLevel').textContent = 'Complete required fields';
+            document.getElementById('readinessScore').className = 'score-value';
+
+            // Timeline
+            document.getElementById('timelineEstimate').textContent = '--';
+
+            // PS Engagement
+            document.getElementById('psEngagementEstimate').textContent = '--';
+
+            // Engagement Model
+            document.getElementById('engagementRecommendation').innerHTML =
+                '<p style="color:#e67e22;">⚠️ Complete required fields to receive recommendations...</p>';
+
+            // Migration Path
+            document.getElementById('migrationPathRecommendation').innerHTML =
+                '<p style="color:#e67e22;"><strong>⚠️ Required Fields Missing</strong><br>Please complete all required fields in the form to receive a detailed migration assessment.</p>';
+
+            // Risk Factors
+            document.getElementById('riskFactors').innerHTML =
+                '<li style="color:#e67e22;">Complete assessment to identify risks...</li>';
+
+            // Priority Actions
+            document.getElementById('priorityActions').innerHTML =
+                '<li style="color:#e67e22;">Complete the form to receive recommendations...</li>';
+        }
+
+        // Calculate scores using Python backend
+        async function calculateScores() {
+            const formData = collectFormData();
+
+            console.log('Sending data to Python API:', formData);
+
+            try {
+                const response = await fetch('http://localhost:8000/api/assess', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    console.error('API Error Response:', errorData);
+
+                    // Check if it's a validation error (422 status)
+                    if (response.status === 422) {
+                        // Log detailed validation errors for debugging
+                        console.error('Validation errors:', errorData);
+                        console.error('Form data sent:', formData);
+
+                        // Extract field names from validation errors
+                        let missingFields = [];
+                        if (errorData?.detail && Array.isArray(errorData.detail)) {
+                            missingFields = errorData.detail.map(err => {
+                                const field = err.loc[err.loc.length - 1];
+                                return field.replace(/_/g, ' ');
+                            });
+                        }
+
+                        // Show specific missing fields in console
+                        if (missingFields.length > 0) {
+                            console.error('Missing or invalid fields:', missingFields.join(', '));
+                            alert(`Please complete the following required fields:\n\n${missingFields.join('\n')}`);
+                        }
+
+                        displayIncompleteFormMessage();
+                        return; // Don't throw error for incomplete forms
+                    }
+
+                    // For other errors, construct error message
+                    let errorMessage = `HTTP ${response.status}`;
+                    if (errorData?.detail) {
+                        if (Array.isArray(errorData.detail)) {
+                            errorMessage = errorData.detail.map(e => `${e.loc.join('.')}: ${e.msg}`).join('; ');
+                        } else {
+                            errorMessage = errorData.detail;
+                        }
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const result = await response.json();
+                console.log('API Response:', result);
+                displayResults(result);
+            } catch (error) {
+                console.error('Error calling Python API:', error);
+                document.getElementById('complexityScore').textContent = '--';
+                document.getElementById('complexityLevel').textContent = 'Complete assessment to view results';
+                document.getElementById('readinessScore').textContent = '--';
+                document.getElementById('readinessLevel').textContent = 'Complete assessment to view results';
+            }
+        }
+
+        // Display results from API
+        function displayResults(result, inputData = null) {
+            console.log('Displaying results:', result);
+
+            // Get form data (use provided inputData if available, otherwise collect from form)
+            const formData = inputData || collectFormData();
+
+            // Complexity score
+            document.getElementById('complexityScore').textContent = result.complexity_score;
+            document.getElementById('complexityLevel').textContent = result.complexity_level;
+            const complexityEl = document.getElementById('complexityScore');
+            complexityEl.className = 'score-value';
+            if (result.complexity_score <= 30) {
+                complexityEl.classList.add('score-low');
+            } else if (result.complexity_score <= 60) {
+                complexityEl.classList.add('score-medium');
+            } else if (result.complexity_score <= 80) {
+                complexityEl.classList.add('score-high');
+            } else {
+                complexityEl.classList.add('score-critical');
+            }
+
+            // Readiness score
+            document.getElementById('readinessScore').textContent = result.readiness_score;
+            document.getElementById('readinessLevel').textContent = result.readiness_level;
+            const readinessEl = document.getElementById('readinessScore');
+            readinessEl.className = 'score-value';
+            if (result.readiness_score >= 70) {
+                readinessEl.classList.add('score-low');
+            } else if (result.readiness_score >= 40) {
+                readinessEl.classList.add('score-medium');
+            } else {
+                readinessEl.classList.add('score-high');
+            }
+
+            // === ASSESSMENT RESULTS SECTION ===
+            // Engagement Model
+            document.getElementById('engagementModel').textContent = result.engagement_model.name;
+            document.getElementById('engagementApproach').textContent = result.engagement_model.approach;
+
+            // === MIGRATION PLAN SECTION ===
+            // Timeline
+            const timelineMinWeeks = Math.round(result.timeline.min_months * 4.33);
+            const timelineMaxWeeks = Math.round(result.timeline.max_months * 4.33);
+            const timelineWeeksRange = `${timelineMinWeeks}-${timelineMaxWeeks}`;
+            const timelineMinMonths = Math.round(result.timeline.min_months);
+            const timelineMaxMonths = Math.round(result.timeline.max_months);
+            const timelineMonthsRange = `${timelineMinMonths}-${timelineMaxMonths}`;
+            document.getElementById('timelineEstimate').textContent = timelineWeeksRange;
+            document.getElementById('timelineMonths').textContent = `${timelineMonthsRange} months`;
+
+            // PS Effort
+            const avgTimeline = (result.timeline.min_months + result.timeline.max_months) / 2;
+            const psEffortMonths = (avgTimeline * result.engagement_model.ps_effort_percent / 100);
+            const psEffortWeeksRaw = Math.round(psEffortMonths * 4.33); // Convert months to weeks
+            const psEffortWeeks = psEffortWeeksRaw < 1 ? 1 : psEffortWeeksRaw; // Minimum 1 week for any engagement
+            const psEffortMonthsRounded = Math.round(psEffortMonths);
+            document.getElementById('psEffortPercent').textContent = psEffortWeeks;
+            // Show weeks if less than 1 month, otherwise show months
+            if (psEffortMonths < 1) {
+                document.getElementById('psEffortMonths').textContent = `${psEffortWeeks} ${psEffortWeeks === 1 ? 'week' : 'weeks'} billable`;
+            } else {
+                document.getElementById('psEffortMonths').textContent = `${psEffortMonthsRounded} ${psEffortMonthsRounded === 1 ? 'month' : 'months'} billable`;
+            }
+
+            // Migration Strategy
+            const strategyLabel = formData.swarm_percent === 0 ? 'Registry-First' :
+                                 formData.swarm_percent < 50 ? 'Platform-First' :
+                                 'Swarm Conversion';
+            document.getElementById('migrationStrategy').textContent = strategyLabel;
+            document.getElementById('migrationPath').textContent = result.migration_path;
+
+            // === YOUR ENVIRONMENT SECTION ===
+            // Workload Mix
+            document.getElementById('swarmSummary').textContent = formData.swarm_percent === 0 ?
+                '0% Swarm' : `${formData.swarm_percent}% Swarm`;
+            document.getElementById('k8sSummary').textContent = `${formData.kubernetes_percent}% Kubernetes`;
+
+            // Automation
+            document.getElementById('automationSummary').textContent = formData.automation_level + '%';
+            const deployFreqMap = {
+                'quarterly': 'Quarterly',
+                'monthly': 'Monthly',
+                'weekly': 'Weekly',
+                'daily': 'Daily',
+                'multiple-daily': 'Multiple/day'
+            };
+            document.getElementById('deployFreq').textContent = deployFreqMap[formData.deploy_frequency] || formData.deploy_frequency;
+
+            // Team Size
+            document.getElementById('teamSize').textContent = formData.platform_team_size;
+            const dedicationMap = { 'yes': 'Full-time', 'partial': 'Part-time', 'no': 'None' };
+            document.getElementById('teamDedication').textContent = dedicationMap[formData.dedicated_team] || formData.dedicated_team;
+
+            // Validation warnings are now integrated into Risk Assessment section below
+
+            // Engagement model with PS role breakdown
+            const engagement = result.engagement_model;
+            let engagementHtml = `
+                <h4>🎯 ${engagement.name}</h4>
+                <p><strong>Total Project Duration:</strong> ${timelineMonthsRange} months (based on your assessment)</p>
+            `;
+
+            if (result.ps_role_breakdown && result.ps_role_breakdown.length > 0) {
+                engagementHtml += `
+                    <p><strong>Professional Services Time Commitment:</strong></p>
+                    <ul>
+                ${result.ps_role_breakdown.map(role =>
+                    `<li>• <strong>${role.role}:</strong> ${role.weeks} - ${role.description}</li>`
+                ).join('')}
+                    </ul>
+                `;
+            } else {
+                engagementHtml += `
+                    <p><strong>PS Effort:</strong> ${engagement.ps_effort_percent}% of project (${psEffortMonths} months)</p>
+                    <p><strong>Description:</strong> ${engagement.description}</p>
+                `;
+            }
+
+            // Engagement section removed - info now in cards
+            // document.getElementById('engagementRecommendation').innerHTML = engagementHtml;
+
+            // Migration path with scenario details
+            let migrationHtml = '';
+
+            if (result.migration_scenario) {
+                const scenario = result.migration_scenario;
+                migrationHtml = `
+                    <h3 style="color: #00B8B1; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; display: flex; align-items: center;">
+                        <span style="color: #00D4CC; margin-right: 8px;">→</span> ${result.migration_path}
+                    </h3>
+
+                    <div style="background: #f8fafc; padding: 12px 16px; margin-bottom: 16px; border-radius: 6px;">
+                        <p style="margin: 0; color: #555;"><strong style="color: #333;">Your Scenario:</strong> ${scenario.title}</p>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; font-size: 16px; font-weight: 600; margin: 0 0 12px 0;">Migration Strategy:</h4>
+                        <ol style="margin: 0 0 0 24px; padding: 0; line-height: 1.8;">
+                            ${scenario.strategy_steps.map(step => `<li style="margin-bottom: 8px; color: #444;">${step}</li>`).join('')}
+                        </ol>
+                    </div>
+
+                    <div style="background: #fff9e6; padding: 12px 16px; margin-bottom: 16px; border-radius: 6px;">
+                        <p style="margin: 0; color: #555;"><strong style="color: #f57c00;">Critical Timeline:</strong> ${scenario.critical_timeline}</p>
+                    </div>
+
+                    <div style="margin-bottom: 0;">
+                        <h4 style="color: #333; font-size: 16px; font-weight: 600; margin: 0 0 12px 0;">Key Considerations:</h4>
+                        <ul style="margin: 0 0 0 24px; padding: 0; line-height: 1.8;">
+                            ${scenario.key_considerations.map(consideration => `<li style="margin-bottom: 8px; color: #444;">${consideration}</li>`).join('')}
+                            ${(result.considerations && result.considerations.length > 0 && result.considerations[0] !== 'No significant considerations identified')
+                                ? result.considerations.map(item => `<li style="margin-bottom: 8px; color: #555; font-style: italic;">${item}</li>`).join('')
+                                : ''}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                migrationHtml = `
+                    <h3 style="color: #00B8B1; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; display: flex; align-items: center;">
+                        <span style="color: #00D4CC; margin-right: 8px;">→</span> ${result.migration_path}
+                    </h3>
+                    <ul style="margin: 0 0 0 24px; padding: 0; line-height: 1.8;">
+                        ${result.migration_strategy.map(step => `<li style="margin-bottom: 8px; color: #444;">${step}</li>`).join('')}
+                    </ul>
+                `;
+            }
+
+            document.getElementById('migrationPathRecommendation').innerHTML = migrationHtml;
+
+            // Risk Assessment - Show risks from validation_warnings AND feature migration warnings
+            const riskList = document.getElementById('riskFactors');
+
+            // Categorize validation warnings into risks
+            const risks = {
+                featureMigration: [], // Feature compatibility risks - breaking changes
+                capacity: [],         // Team capacity issues - could cause project delays
+                technical: [],        // Technical gaps - could impact quality
+                infrastructure: []    // Infrastructure risks - could cause failures
+            };
+
+            // Collect feature migration risks from Migration tab
+            // SAML - Check dropdown (not available in MSR4)
+            const selectedAuthMethod = document.getElementById('authMethod')?.value;
+            if (selectedAuthMethod === 'saml') {
+                risks.featureMigration.push('SAML Authentication not available in MSR 4 - OIDC migration required');
+            }
+            // Image Promotion Policies - Not available in MSR4
+            if (document.getElementById('feat-required-promotion')?.checked) {
+                risks.featureMigration.push('Image Promotion Policies not available in MSR 4 - alternative CI/CD workflows required');
+            }
+            // Image Signing - Notary v1 to Cosign migration
+            if (document.getElementById('feat-current-signing')?.checked &&
+                document.getElementById('feat-required-signing')?.checked) {
+                risks.featureMigration.push('Image Signing migration required: Docker Content Trust (Notary v1) images must be re-signed with Cosign');
+            }
+            // RBAC - Schema differs
+            if (document.getElementById('feat-current-rbac')?.checked &&
+                document.getElementById('feat-required-rbac')?.checked) {
+                risks.featureMigration.push('RBAC schema differs in MSR 4 - role mappings need review and update');
+            }
+            // Webhooks - API changes
+            if (document.getElementById('feat-current-webhooks')?.checked &&
+                document.getElementById('feat-required-webhooks')?.checked) {
+                risks.featureMigration.push('Webhooks require reconfiguration for Harbor API format in MSR 4');
+            }
+
+            if (result.validation_warnings && result.validation_warnings.length > 0) {
+                result.validation_warnings.forEach(warning => {
+                    // Capacity risks - team overload
+                    if (warning.includes('apps per platform team') || warning.includes('MKE instances per team')) {
+                        risks.capacity.push(warning);
+                    }
+                    // Technical risks - skill gaps
+                    else if (warning.includes('Kubernetes experience') || warning.includes('MSR instances per team')) {
+                        risks.technical.push(warning);
+                    }
+                    // Infrastructure risks - system reliability
+                    else if (warning.includes('NFS') || warning.includes('PostgreSQL') || warning.includes('Redis') ||
+                               warning.includes('blob storage') || warning.includes('Cross-') || warning.includes('cross-') ||
+                               warning.includes('MSR 4') || warning.includes('network') || warning.includes('registry') ||
+                               warning.includes('latency') || warning.includes('HA') || warning.includes('DBA') ||
+                               warning.includes('operational')) {
+                        risks.infrastructure.push(warning);
+                    }
+                });
+            }
+
+            let riskHtml = '';
+
+            // Feature Migration Risks (highest priority - breaking changes)
+            if (risks.featureMigration.length > 0) {
+                riskHtml += '<li style="margin-top: 12px; margin-left: -20px; list-style: none;"><strong style="color: #c0392b;">Feature Migration Risks:</strong></li>';
+                riskHtml += risks.featureMigration.map(w => `<li style="margin-bottom: 8px; margin-left: 0;">${w}</li>`).join('');
+            }
+
+            // Infrastructure Risks
+            if (risks.infrastructure.length > 0) {
+                riskHtml += '<li style="margin-top: 16px; margin-left: -20px; list-style: none;"><strong style="color: #c0392b;">Infrastructure Risks:</strong></li>';
+                riskHtml += risks.infrastructure.map(w => `<li style="margin-bottom: 8px; margin-left: 0;">${w}</li>`).join('');
+            }
+
+            // Capacity Risks
+            if (risks.capacity.length > 0) {
+                riskHtml += '<li style="margin-top: 16px; margin-left: -20px; list-style: none;"><strong style="color: #d35400;">Capacity Risks:</strong></li>';
+                riskHtml += risks.capacity.map(w => `<li style="margin-bottom: 8px; margin-left: 0;">${w}</li>`).join('');
+            }
+
+            // Technical Risks
+            if (risks.technical.length > 0) {
+                riskHtml += '<li style="margin-top: 16px; margin-left: -20px; list-style: none;"><strong style="color: #b8860b;">Technical Risks:</strong></li>';
+                riskHtml += risks.technical.map(w => `<li style="margin-bottom: 8px; margin-left: 0;">${w}</li>`).join('');
+            }
+
+            // If no risks at all
+            if (riskHtml === '') {
+                riskHtml = '<li style="list-style: none; margin-left: -20px; color: #28a745;"><strong>No critical risks identified</strong> - Your configuration follows best practices.</li>';
+            }
+
+            riskList.innerHTML = riskHtml;
+
+            // Migration Phases
+            const actionList = document.getElementById('priorityActions');
+            let actionsHtml = '';
+
+            if (result.phase_details && result.phase_details.length > 0) {
+                result.phase_details.forEach(phase => {
+                    actionsHtml += `
+                        <li><strong>PHASE ${phase.number} (${phase.name}):</strong> ${phase.description}
+                            <ul style="margin-top: 5px;">
+                                <li><em>Duration: ${phase.duration_weeks}</em></li>
+                                ${phase.activities.map(activity => `<li>${activity}</li>`).join('')}
+                            </ul>
+                        </li>
+                    `;
+                });
+            } else {
+                actionsHtml = result.priority_actions.map(action => `<li>${action}</li>`).join('');
+            }
+
+            // Add immediate actions as a separate list if present
+            if (result.immediate_actions && result.immediate_actions.length > 0) {
+                actionsHtml += `
+                    </ol>
+                    <br/>
+                    <p><strong>Immediate Actions:</strong></p>
+                    <ol>
+                    ${result.immediate_actions.map(action => `<li>${action}</li>`).join('')}
+                `;
+            }
+
+            actionList.innerHTML = actionsHtml;
+        }
+
+        // Export function with tabbed interface
+        function exportSummaryHtml() {
+            const formData = collectFormData();
+            const companyName = formData.company_name || 'company';
+            const sanitizedCompany = companyName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+            const today = new Date();
+            const dateStr = today.toISOString().split('T')[0];
+            const filename = `migration-summary-${sanitizedCompany}-${dateStr}.html`;
+
+            // Get assessment scores from UI
+            const complexityScore = document.getElementById('complexityScore').textContent;
+            const complexityLevel = document.getElementById('complexityLevel').textContent;
+            const readinessScore = document.getElementById('readinessScore').textContent;
+            const readinessLevel = document.getElementById('readinessLevel').textContent;
+            const timelineEstimate = document.getElementById('timelineEstimate').textContent;
+            const timelineMonths = document.getElementById('timelineMonths').textContent;
+            const psEffortWeeks = document.getElementById('psEffortPercent').textContent;
+            const psEffortMonths = document.getElementById('psEffortMonths').textContent;
+            const migrationStrategy = document.getElementById('migrationStrategy').textContent;
+            const swarmSummary = document.getElementById('swarmSummary').textContent;
+            const k8sSummary = document.getElementById('k8sSummary').textContent;
+            const automationSummary = document.getElementById('automationSummary').textContent;
+            const deployFreq = document.getElementById('deployFreq').textContent;
+            const teamSize = document.getElementById('teamSize').textContent;
+            const teamDedication = document.getElementById('teamDedication').textContent;
+            const engagementModel = document.getElementById('engagementModel').textContent;
+            const notes = document.getElementById('additionalNotes').value || '';
+
+            // Get recommendation sections
+            const migrationPath = document.getElementById('migrationPathRecommendation').innerHTML;
+            const riskFactors = document.getElementById('riskFactors').innerHTML;
+            const priorityActions = document.getElementById('priorityActions').innerHTML;
+
+            const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migration Assessment Summary - ${companyName}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fb; color: #222; padding: 30px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
+        header { background: linear-gradient(135deg, #00D4CC 0%, #00B8B1 100%); color: #fff; padding: 24px 28px; }
+        h1 { margin: 0 0 6px 0; font-size: 24px; }
+        .meta { opacity: 0.9; font-size: 14px; }
+        .section { padding: 24px 28px; border-top: 1px solid #eef2f7; }
+        h2 { color: #00B8B1; margin: 0 0 14px 0; font-size: 18px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .card { background: #f8fafc; border: 1px solid #eef2f7; border-radius: 10px; padding: 16px; text-align: center; }
+        .score { font-size: 32px; font-weight: 700; margin: 6px 0; }
+        .label { color: #667; font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+        .box { background: #fff; border: 1px solid #eef2f7; border-radius: 10px; padding: 16px; }
+        ul, ol { margin: 0 0 0 20px; }
+        .notes { white-space: normal; line-height: 1.6; background: #fffbf0; padding: 14px; border-radius: 8px; }
+        .tabs { display: flex; gap: 8px; padding: 12px 28px; border-top: 1px solid #eef2f7; background: #fafbff; }
+        .tab-btn { padding: 10px 16px; border: 1px solid #dfe5ef; background: #fff; border-radius: 8px; cursor: pointer; font-weight: 600; color: #00B8B1; }
+        .tab-btn.active { background: #00D4CC; color: #fff; border-color: #00D4CC; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .disclaimer-banner { background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF69B4 100%); padding: 14px 20px; margin: 16px 20px; border-radius: 8px; color: #fff; font-size: 13px; }
+        .disclaimer-banner strong { font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Migration Assessment Summary</h1>
+            <div class="meta">Customer: ${companyName} • Date: ${dateStr}</div>
+        </header>
+        <div class="disclaimer-banner">
+            <strong>Disclaimer:</strong> This assessment provides initial estimates for planning purposes only. All timelines, effort levels, and recommendations are indicative and subject to change following a detailed discovery engagement. This tool does not constitute a statement of work or contractual commitment.
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('tab-summary', this)">Summary</button>
+            <button class="tab-btn" onclick="openTab('tab-details', this)">Full Details</button>
+        </div>
+        <div id="tab-summary" class="tab-content active">
+            <div class="section">
+                <h2>Summary</h2>
+                <div class="box">
+                    <!-- Assessment Results Subsection -->
+                    <h3 style="font-size: 16px; font-weight: 600; color: #333; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0;">Assessment Results</h3>
+                    <div class="grid" style="margin-bottom: 24px;">
+                        <div class="card">
+                            <div class="label">Complexity</div>
+                            <div class="score">${complexityScore}</div>
+                            <div>${complexityLevel}</div>
+                        </div>
+                        <div class="card">
+                            <div class="label">Readiness</div>
+                            <div class="score">${readinessScore}</div>
+                            <div>${readinessLevel}</div>
+                        </div>
+                        <div class="card">
+                            <div class="label">Engagement Model</div>
+                            <div class="score" style="font-size:20px;">${engagementModel}</div>
+                        </div>
+                    </div>
+
+                    <!-- Migration Plan Subsection -->
+                    <h3 style="font-size: 16px; font-weight: 600; color: #333; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0;">Migration Plan</h3>
+                    <div class="grid" style="margin-bottom: 24px;">
+                        <div class="card">
+                            <div class="label">Timeline</div>
+                            <div class="score">${timelineEstimate}</div>
+                            <div>weeks</div>
+                            <div style="font-size:12px; color:#667; margin-top:4px;">${timelineMonths}</div>
+                        </div>
+                        <div class="card">
+                            <div class="label">PS Effort</div>
+                            <div class="score">${psEffortWeeks}</div>
+                            <div>weeks</div>
+                            <div style="font-size:12px; color:#667; margin-top:4px;">${psEffortMonths}</div>
+                        </div>
+                        <div class="card">
+                            <div class="label">Strategy</div>
+                            <div class="score" style="font-size:20px;">${migrationStrategy}</div>
+                        </div>
+                    </div>
+
+                    <!-- Your Environment Subsection -->
+                    <h3 style="font-size: 16px; font-weight: 600; color: #333; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0;">Your Environment</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <div class="label">Workload Mix</div>
+                            <div class="score">${swarmSummary}</div>
+                            <div style="font-size:12px; color:#667; margin-top:4px;">${k8sSummary}</div>
+                        </div>
+                        <div class="card">
+                            <div class="label">Automation</div>
+                            <div class="score">${automationSummary}</div>
+                            <div style="font-size:12px; color:#667; margin-top:4px;">${deployFreq}</div>
+                        </div>
+                        <div class="card">
+                            <div class="label">Team Size</div>
+                            <div class="score">${teamSize}</div>
+                            <div style="font-size:12px; color:#667; margin-top:4px;">${teamDedication}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Migration Strategy</h2>
+                <div class="box">${migrationPath}</div>
+            </div>
+            <div class="section">
+                <h2>Risk Assessment</h2>
+                <div class="box"><ul>${riskFactors}</ul></div>
+            </div>
+            <div class="section">
+                <h2>Migration Phases</h2>
+                <div class="box"><ol>${priorityActions}</ol></div>
+            </div>
+            <div class="section">
+                <h2>Additional Notes</h2>
+                <div class="notes">${notes || 'No additional notes'}</div>
+            </div>
+        </div>
+
+        <div id="tab-details" class="tab-content">
+            <div class="section">
+                <h2>Overview</h2>
+                <div class="box">
+                    <div><strong>Company Name:</strong> ${formData.company_name}</div>
+                    <div><strong>Industry:</strong> ${formData.industry || '-'}</div>
+                    <div><strong>Company Size:</strong> ${formData.company_size || '-'}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Environment</h2>
+                <div class="box">
+                    <div><strong>MSR Version:</strong> ${formData.msr_version === '0.0' ? 'No MSR' : formData.msr_version}</div>
+                    <div><strong>MKE Version:</strong> ${formData.mke_version}</div>
+                    <div><strong>Infrastructure Location:</strong> ${formData.infra_location || 'onprem'}</div>
+                    <div><strong>MKE Instances:</strong> ${formData.num_mke_instances}</div>
+                    <div><strong>MSR Instances:</strong> ${formData.num_msr_instances === 0 ? 'None' : formData.num_msr_instances}</div>
+                    <div><strong>Total Nodes:</strong> ${formData.total_nodes}</div>
+                    <div><strong>Air-Gapped:</strong> ${formData.air_gapped ? 'Yes - Offline installation required' : 'No'}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Workloads</h2>
+                <div class="box">
+                    <div><strong>Kubernetes Workloads:</strong> ${formData.kubernetes_percent}%</div>
+                    <div><strong>Swarm Workloads:</strong> ${formData.swarm_percent}%</div>
+                    <div><strong>Total Applications/Services:</strong> ${formData.app_count}</div>
+                    <div><strong>Mission Critical:</strong> ${formData.mission_critical_percent || 0}%</div>
+                    <div><strong>Business Critical:</strong> ${formData.business_critical_percent || 0}%</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Teams & Skills</h2>
+                <div class="box">
+                    <div><strong>Platform Team Size:</strong> ${formData.platform_team_size}</div>
+                    <div><strong>Application Teams:</strong> ${formData.application_teams || '-'}</div>
+                    <div><strong>Kubernetes Experience:</strong> ${formData.k8s_experience}/5</div>
+                    <div><strong>Dedicated Migration Team:</strong> ${formData.dedicated_team}</div>
+                    <div><strong>Previous Migration Experience:</strong> ${formData.migration_exp}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Processes</h2>
+                <div class="box">
+                    <div><strong>Deployment Automation Level:</strong> ${formData.automation_level}%</div>
+                    <div><strong>Deployment Frequency:</strong> ${formData.deploy_frequency}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Integration</h2>
+                <div class="box">
+                    <div><strong>Authentication Method:</strong> ${formData.auth_method || '-'}</div>
+                    <div><strong>Current Features:</strong> ${formData.features_current?.join(', ') || '-'}</div>
+                    <div><strong>Required Features:</strong> ${formData.features_required?.join(', ') || '-'}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>MSR Registry Scale</h2>
+                <div class="box">
+                    <div><strong>Blob Storage:</strong> ${formData.blob_storage_tb || '-'} TB</div>
+                    <div><strong>Average Image Size:</strong> ${formData.avg_image_size_mb || '-'} MB</div>
+                    <div><strong>Organizations:</strong> ${formData.org_count || '-'}</div>
+                    <div><strong>Avg Repos per Org:</strong> ${formData.avg_repos_per_org || '-'}</div>
+                    <div><strong>Min Repos per Org:</strong> ${formData.min_repos_per_org || '-'}</div>
+                    <div><strong>Max Repos per Org:</strong> ${formData.max_repos_per_org || '-'}</div>
+                    <div><strong>Avg Tags per Repo:</strong> ${formData.avg_tags_per_repo || '-'}</div>
+                    <div><strong>User Accounts:</strong> ${formData.user_account_count || '-'}</div>
+                    <div><strong>Teams:</strong> ${formData.team_count || '-'}</div>
+                    <div><strong>Teams per Org:</strong> ${formData.teams_per_org || '-'}</div>
+                    <div><strong>Workloads Accessing Registry:</strong> ${formData.workloads_accessing_registry || '-'}%</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>MSR Performance</h2>
+                <div class="box">
+                    <div><strong>Max Pull Throughput:</strong> ${formData.max_pull_throughput || '-'} MB/s</div>
+                    <div><strong>Max Concurrent Pulls:</strong> ${formData.max_concurrent_pulls || '-'}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>MSR Infrastructure</h2>
+                <div class="box">
+                    <div><strong>MSR4 Location:</strong> ${formData.msr4_location || '-'}</div>
+                    <div><strong>Network Performance:</strong> ${formData.network_performance || '-'}</div>
+                    <div><strong>PostgreSQL Deployment:</strong> ${formData.postgres_deployment || '-'}</div>
+                    <div><strong>Redis Deployment:</strong> ${formData.redis_deployment || '-'}</div>
+                    <div><strong>PostgreSQL Storage:</strong> ${formData.postgres_storage || '-'}</div>
+                    <div><strong>Blob Storage Type:</strong> ${formData.blob_storage || '-'}</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Monitoring & Observability</h2>
+                <div class="box">
+                    <div><strong>Current Monitoring (MSR3):</strong> ${formData.monitoring_current?.join(', ') || '-'}</div>
+                    <div><strong>Planned Monitoring (MSR4):</strong> ${formData.monitoring_planned?.join(', ') || '-'}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    <\/script>
+</body>
+</html>`;
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

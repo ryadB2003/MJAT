@@ -1,0 +1,69 @@
+# 1. Le Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mjat
+  labels:
+    app: mjat
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mjat
+  template:
+    metadata:
+      labels:
+        app: mjat
+    spec:
+      containers:
+        - name: mjat
+          image: ghcr.io/mirantis/modular-journey-assessment-tool:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: web
+              containerPort: 8080
+            - name: api
+              containerPort: 8000
+---
+# 2. Le Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mjat
+spec:
+  selector:
+    app: mjat
+  ports:
+    - name: web
+      port: 8080
+      targetPort: web
+    - name: api
+      port: 8000
+      targetPort: api
+---
+# 3. L'Ingress 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mjat-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - mjat.duckdns.org
+    secretName: mjat-letsencrypt-tls
+  rules:
+  - host: mjat.duckdns.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mjat
+            port:
+              name: web

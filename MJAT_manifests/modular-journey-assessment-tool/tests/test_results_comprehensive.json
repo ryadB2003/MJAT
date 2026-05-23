@@ -1,0 +1,4093 @@
+{
+  "metadata": {
+    "test_run_timestamp": "2025-11-25T17:35:35.822378",
+    "api_url": "http://localhost:8000/api/assess",
+    "total_tests": 39,
+    "passed": 39,
+    "failed": 0,
+    "duration_seconds": 0.09,
+    "pass_rate": 100.0
+  },
+  "categories": {
+    "valid_scenarios": {
+      "tests": [
+        {
+          "test_name": "ACME - Expert Advisory",
+          "passed": true,
+          "input_data": {
+            "company_name": "ACME Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 0,
+            "kubernetes_percent": 100,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 10,
+            "k8s_experience": 5,
+            "migration_exp": "extensive",
+            "dedicated_team": "yes",
+            "training_needs_count": 0,
+            "automation_level": 80,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "engagement_model": "advisory"
+          },
+          "actual_result": {
+            "complexity_score": 20,
+            "complexity_level": "Low",
+            "readiness_score": 100,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "advisory",
+              "name": "Enablement & Advisory",
+              "approach": "Enablement & Advisory (Self-Guided with Expert Support)",
+              "description": "Mostly Kubernetes workloads, high automation, strong team needs validation and guidance",
+              "ps_effort_percent": 27.5,
+              "duration_multiplier": 0.85
+            },
+            "timeline": {
+              "min_months": 0.4,
+              "max_months": 0.5,
+              "base_weeks": 2.0,
+              "multipliers_applied": {
+                "base": 2.0,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.0,
+                "engagement": 0.0,
+                "environments": 0.0,
+                "experience": -2.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Begin migration planning with expert advisory support",
+              "Set up regular check-ins for validation and guidance"
+            ],
+            "migration_path": "Registry-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Pure Kubernetes Migration: MSR 2.9 + MKE 3.8",
+              "strategy_steps": [
+                "Validate current Kubernetes workloads compatibility",
+                "Migrate MSR to MSR 4.0 (Harbor-based)",
+                "Update CI/CD pipelines for MSR 4.0 API changes",
+                "Upgrade MKE to version 4.0",
+                "Final validation and performance optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "MSR 4.0 uses Harbor backend - API changes require CI/CD updates",
+                "Image promotion policies not available in MSR 4.0 - alternative workflows needed",
+                "RBAC schema differs - permission mappings must be documented"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Environment review and upgrade planning",
+                "duration_weeks": "2-3 days",
+                "activities": [
+                  "Your team inventories workloads; PS validates",
+                  "Review MSR 4.0 and MKE 4.0 migration path",
+                  "Your team creates upgrade runbook; PS reviews",
+                  "Finalize maintenance windows and communication plan"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Upgrade Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "4-5 days",
+                "activities": [
+                  "Your team executes MSR migration; PS advises",
+                  "Your team executes MKE upgrade after MSR",
+                  "Your team updates CI/CD pipelines as needed",
+                  "Your team performs integration testing; PS spot-checks"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Validation & Handoff",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "2-3 days",
+                "activities": [
+                  "Your team conducts comprehensive testing",
+                  "PS provides final review and recommendations",
+                  "Your team updates documentation and runbooks",
+                  "PS delivers sign-off and optimization tips"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Review and approve migration plan with stakeholders",
+              "Schedule kick-off meeting with Professional Services team"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Technical Advisor",
+                "weeks": "0-0 weeks",
+                "description": "Strategic guidance and architecture review"
+              },
+              {
+                "role": "PS Specialist (on-demand)",
+                "weeks": "0-0 weeks",
+                "description": "Targeted support for complex scenarios"
+              }
+            ]
+          },
+          "validation_message": "PASSED",
+          "timestamp": "2025-11-25T17:35:35.828828"
+        },
+        {
+          "test_name": "Distributed Chaos - Hybrid",
+          "passed": true,
+          "input_data": {
+            "company_name": "Chaos Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "hybrid",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 50,
+            "kubernetes_percent": 50,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "engagement_model": "assessment-first"
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "assessment-first",
+              "name": "Comprehensive Assessment Required",
+              "approach": "Assessment First, Then Services",
+              "description": "Complex environment with scale challenges - comprehensive assessment needed",
+              "ps_effort_percent": 0.0,
+              "duration_multiplier": 1.0
+            },
+            "timeline": {
+              "min_months": 2.6,
+              "max_months": 3.2,
+              "base_weeks": 7.0,
+              "multipliers_applied": {
+                "base": 7.0,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 1.5,
+                "engagement": 2.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Complete comprehensive environment assessment (2-4 weeks)",
+              "Document all dependencies and integration points",
+              "Plan Swarm to Kubernetes conversion for 50% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "High Swarm Migration: MSR 2.9 + MKE 3.8 (50% Swarm)",
+              "strategy_steps": [
+                "Plan conversion of 50% Swarm workloads to Kubernetes",
+                "Establish Kubernetes best practices and patterns",
+                "Execute phased Swarm-to-Kubernetes migration",
+                "Migrate MSR after majority of workloads converted",
+                "Upgrade MKE to version 4.0",
+                "Final validation and knowledge transfer"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Significant Swarm workload conversion required (50%)",
+                "Consider application modernization opportunities during conversion",
+                "Extended timeline due to workload transformation",
+                "Training investment critical for long-term success"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Comprehensive Assessment",
+                "description": "Deep environment analysis to size remaining phases",
+                "duration_weeks": "2-3 weeks",
+                "activities": [
+                  "Detailed inventory of all workloads and dependencies",
+                  "Performance and capacity baseline",
+                  "Risk assessment and mitigation planning",
+                  "Sizing of phases 2-5 based on findings"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "TBD - Pending Assessment",
+                "description": "Scope determined after Phase 1 completes",
+                "duration_weeks": "TBD",
+                "activities": [
+                  "To be determined based on assessment findings"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project",
+              "Schedule comprehensive assessment engagement within 2 weeks"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "2-4 weeks",
+                "description": "Comprehensive environment assessment and remaining phase sizing"
+              },
+              {
+                "role": "Remaining Roles",
+                "weeks": "TBD",
+                "description": "Determined after assessment phase completes"
+              }
+            ]
+          },
+          "validation_message": "PASSED",
+          "timestamp": "2025-11-25T17:35:35.831631"
+        },
+        {
+          "test_name": "Full Managed - Overwhelmed",
+          "passed": true,
+          "input_data": {
+            "company_name": "Overwhelmed Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 85,
+            "kubernetes_percent": 15,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 2,
+            "k8s_experience": 1,
+            "migration_exp": "none",
+            "dedicated_team": "partial",
+            "training_needs_count": 5,
+            "automation_level": 20,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "engagement_model": "full"
+          },
+          "actual_result": {
+            "complexity_score": 46,
+            "complexity_level": "Medium",
+            "readiness_score": 50,
+            "readiness_level": "Medium Readiness",
+            "engagement_model": {
+              "model": "full",
+              "name": "Full Managed Migration",
+              "approach": "Full Managed Migration (5-Phase Approach)",
+              "description": "75%+ Swarm workloads, limited Kubernetes expertise, no dedicated migration resources",
+              "ps_effort_percent": 87.5,
+              "duration_multiplier": 1.2
+            },
+            "timeline": {
+              "min_months": 3.3,
+              "max_months": 4.0,
+              "base_weeks": 8.4,
+              "multipliers_applied": {
+                "base": 8.4,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 2.5,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 1.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "High Swarm workload (85%) with limited K8s expertise - additional training recommended",
+              "Manual conversion of 85% Swarm workloads - automation improvements would accelerate migration",
+              "Automation improvements would reduce manual effort during migration"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 85% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [
+              "High Swarm workload with limited Kubernetes experience - training critical for success"
+            ],
+            "migration_scenario": {
+              "title": "High Swarm Migration: MSR 2.9 + MKE 3.8 (85% Swarm)",
+              "strategy_steps": [
+                "Plan conversion of 85% Swarm workloads to Kubernetes",
+                "Establish Kubernetes best practices and patterns",
+                "Execute phased Swarm-to-Kubernetes migration",
+                "Migrate MSR after majority of workloads converted",
+                "Upgrade MKE to version 4.0",
+                "Final validation and knowledge transfer"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Significant Swarm workload conversion required (85%)",
+                "Consider application modernization opportunities during conversion",
+                "Extended timeline due to workload transformation",
+                "Training investment critical for long-term success"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-3 weeks",
+                "activities": [
+                  "PS conducts comprehensive assessment with your team oversight",
+                  "PS documents architecture; your team provides context",
+                  "PS identifies risks and plans mitigation; your team reviews",
+                  "PS creates detailed runbook; your team learns the approach"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-3 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS trains your team while handling migration complexity",
+                  "PS delivers comprehensive MSR 4.0 and K8s conversion training",
+                  "PS demonstrates Swarm-to-K8s tools and procedures; your team observes",
+                  "PS establishes standards and practices; your team learns"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "4-7 weeks (begins during Phase 2)",
+                "activities": [
+                  "PS converts Swarm workloads to Kubernetes; your team observes",
+                  "PS updates CI/CD pipelines; your team reviews changes",
+                  "PS sets up MSR 4.0 infrastructure; your team shadows",
+                  "PS conducts performance testing; your team validates results"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "4-6 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "PS executes migration end-to-end with your team supporting",
+                  "PS migrates authentication; your team provides access/approvals",
+                  "PS updates applications; your team validates functionality",
+                  "PS validates integrations; your team confirms operational fit"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "PS validates and optimizes with your team participation",
+                  "PS performs tuning; your team learns optimization techniques",
+                  "PS creates documentation; your team reviews for operational needs",
+                  "PS transfers operational knowledge and provides certification"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project",
+              "Begin Kubernetes training for platform team immediately",
+              "Start planning Swarm-to-Kubernetes conversion strategy",
+              "Assess and improve CI/CD automation before migration"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "6-7 weeks",
+                "description": "Technical leadership and decision-making throughout entire migration"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "4-6 weeks",
+                "description": "Hands-on migration execution and technical implementation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "2-3 weeks",
+                "description": "Project coordination, risk management, and stakeholder communication"
+              }
+            ]
+          },
+          "validation_message": "PASSED",
+          "timestamp": "2025-11-25T17:35:35.834268"
+        },
+        {
+          "test_name": "Hybrid - Time Constrained",
+          "passed": true,
+          "input_data": {
+            "company_name": "Hybrid Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 40,
+            "kubernetes_percent": 60,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 6,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 55,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "engagement_model": "hybrid"
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.2,
+              "max_months": 2.7,
+              "base_weeks": 6.6,
+              "multipliers_applied": {
+                "base": 6.6,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 1.2,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 40% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (40% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 40% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-4 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "PASSED",
+          "timestamp": "2025-11-25T17:35:35.837007"
+        }
+      ],
+      "passed": 4,
+      "failed": 0
+    },
+    "boundary_conditions": {
+      "tests": [
+        {
+          "test_name": "Swarm 0%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 0,
+            "kubernetes_percent": 100,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 26,
+            "complexity_level": "Low",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 1.0,
+              "max_months": 1.2,
+              "base_weeks": 2.0,
+              "multipliers_applied": {
+                "base": 2.0,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.0,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [],
+            "migration_path": "Registry-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Pure Kubernetes Migration: MSR 2.9 + MKE 3.8",
+              "strategy_steps": [
+                "Validate current Kubernetes workloads compatibility",
+                "Migrate MSR to MSR 4.0 (Harbor-based)",
+                "Update CI/CD pipelines for MSR 4.0 API changes",
+                "Upgrade MKE to version 4.0",
+                "Final validation and performance optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "MSR 4.0 uses Harbor backend - API changes require CI/CD updates",
+                "Image promotion policies not available in MSR 4.0 - alternative workflows needed",
+                "RBAC schema differs - permission mappings must be documented"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on MSR 4.0 training with your team",
+                  "Joint MSR 4.0 administration training and labs",
+                  "PS demonstrates registry migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Preparation & Setup",
+                "description": "Prepare environment and registry infrastructure",
+                "duration_weeks": "1-3 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint preparation of Kubernetes workloads for MSR 4.0",
+                  "Shared CI/CD pipeline updates for new registry",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry migration and platform upgrade",
+                "duration_weeks": "1-3 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared image migration - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "1-2 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "1-1 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "0-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.839301"
+        },
+        {
+          "test_name": "Swarm 1%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 1,
+            "kubernetes_percent": 99,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 31,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 1.7,
+              "max_months": 2.0,
+              "base_weeks": 5.0,
+              "multipliers_applied": {
+                "base": 5.04,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.0,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 1% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (1% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 1% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "2-4 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-3 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "2-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-2 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.841589"
+        },
+        {
+          "test_name": "Swarm 49%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 49,
+            "kubernetes_percent": 51,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.4,
+              "max_months": 2.9,
+              "base_weeks": 7.0,
+              "multipliers_applied": {
+                "base": 6.96,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 1.5,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 49% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (49% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 49% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-4 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.843661"
+        },
+        {
+          "test_name": "Swarm 50%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 50,
+            "kubernetes_percent": 50,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.4,
+              "max_months": 2.9,
+              "base_weeks": 7.0,
+              "multipliers_applied": {
+                "base": 7.0,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 1.5,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 50% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "High Swarm Migration: MSR 2.9 + MKE 3.8 (50% Swarm)",
+              "strategy_steps": [
+                "Plan conversion of 50% Swarm workloads to Kubernetes",
+                "Establish Kubernetes best practices and patterns",
+                "Execute phased Swarm-to-Kubernetes migration",
+                "Migrate MSR after majority of workloads converted",
+                "Upgrade MKE to version 4.0",
+                "Final validation and knowledge transfer"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Significant Swarm workload conversion required (50%)",
+                "Consider application modernization opportunities during conversion",
+                "Extended timeline due to workload transformation",
+                "Training investment critical for long-term success"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-4 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.845971"
+        },
+        {
+          "test_name": "Swarm 100%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 100,
+            "kubernetes_percent": 0,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 46,
+            "complexity_level": "Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 3.2,
+              "max_months": 3.9,
+              "base_weeks": 9.0,
+              "multipliers_applied": {
+                "base": 9.0,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 3.0,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 100% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "High Swarm Migration: MSR 2.9 + MKE 3.8 (100% Swarm)",
+              "strategy_steps": [
+                "Plan conversion of 100% Swarm workloads to Kubernetes",
+                "Establish Kubernetes best practices and patterns",
+                "Execute phased Swarm-to-Kubernetes migration",
+                "Migrate MSR after majority of workloads converted",
+                "Upgrade MKE to version 4.0",
+                "Final validation and knowledge transfer"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Significant Swarm workload conversion required (100%)",
+                "Consider application modernization opportunities during conversion",
+                "Extended timeline due to workload transformation",
+                "Training investment critical for long-term success"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-3 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-3 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "4-7 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "3-6 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project",
+              "Start planning Swarm-to-Kubernetes conversion strategy"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "4-5 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "3-4 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-2 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.848496"
+        },
+        {
+          "test_name": "K8s Exp 1",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 1,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 75,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.3,
+              "max_months": 2.8,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 1.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "Kubernetes expertise development recommended to optimize migration velocity"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project",
+              "Begin Kubernetes training for platform team immediately"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-4 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.851129"
+        },
+        {
+          "test_name": "K8s Exp 3",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.855220"
+        },
+        {
+          "test_name": "K8s Exp 5",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 5,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 95,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 1.7,
+              "max_months": 2.0,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": -2.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "2-4 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-3 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "2-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-2 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.857775"
+        },
+        {
+          "test_name": "Automation 0%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 0,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 75,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "Automation improvements would reduce manual effort during migration"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project",
+              "Assess and improve CI/CD automation before migration"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.860212"
+        },
+        {
+          "test_name": "Automation 50%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.862787"
+        },
+        {
+          "test_name": "Automation 100%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 100,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 35,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 90,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.865028"
+        },
+        {
+          "test_name": "Team 1",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 1,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "full",
+              "name": "Full Managed Migration",
+              "approach": "Full Managed Migration (5-Phase Approach)",
+              "description": "75%+ Swarm workloads, limited Kubernetes expertise, no dedicated migration resources",
+              "ps_effort_percent": 87.5,
+              "duration_multiplier": 1.2
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [
+              "100 apps per platform team is extremely high - consider reviewing team capacity",
+              "5.0 MKE instances per team member is high - may need additional staffing",
+              "1.0 MSR instances per team member - will have operational impact on upgrades and maintenance"
+            ],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "PS conducts comprehensive assessment with your team oversight",
+                  "PS documents architecture; your team provides context",
+                  "PS identifies risks and plans mitigation; your team reviews",
+                  "PS creates detailed runbook; your team learns the approach"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS trains your team while handling migration complexity",
+                  "PS delivers comprehensive MSR 4.0 and K8s conversion training",
+                  "PS demonstrates Swarm-to-K8s tools and procedures; your team observes",
+                  "PS establishes standards and practices; your team learns"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "PS converts Swarm workloads to Kubernetes; your team observes",
+                  "PS updates CI/CD pipelines; your team reviews changes",
+                  "PS sets up MSR 4.0 infrastructure; your team shadows",
+                  "PS conducts performance testing; your team validates results"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "PS executes migration end-to-end with your team supporting",
+                  "PS migrates authentication; your team provides access/approvals",
+                  "PS updates applications; your team validates functionality",
+                  "PS validates integrations; your team confirms operational fit"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "PS validates and optimizes with your team participation",
+                  "PS performs tuning; your team learns optimization techniques",
+                  "PS creates documentation; your team reviews for operational needs",
+                  "PS transfers operational knowledge and provides certification"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "4-4 weeks",
+                "description": "Technical leadership and decision-making throughout entire migration"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "3-4 weeks",
+                "description": "Hands-on migration execution and technical implementation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-2 weeks",
+                "description": "Project coordination, risk management, and stakeholder communication"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.867392"
+        },
+        {
+          "test_name": "Team 2",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 2,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.869956"
+        },
+        {
+          "test_name": "Team 6",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 6,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.872444"
+        },
+        {
+          "test_name": "Team 20",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 20,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "has_valid_response": true
+          },
+          "actual_result": {
+            "complexity_score": 36,
+            "complexity_level": "Low-Medium",
+            "readiness_score": 85,
+            "readiness_level": "Good Readiness",
+            "engagement_model": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced capabilities - your team leads with expert guidance and support",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            },
+            "timeline": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            },
+            "considerations": [
+              "No significant considerations identified"
+            ],
+            "priority_actions": [
+              "Plan Swarm to Kubernetes conversion for 30% of workloads"
+            ],
+            "migration_path": "Platform-First Migration",
+            "migration_strategy": [
+              "Migrate MSR 2.9 \u2192 MSR 4.0",
+              "Update applications",
+              "Upgrade MKE 3.x \u2192 MKE 4.0"
+            ],
+            "validation_warnings": [],
+            "migration_scenario": {
+              "title": "Low Swarm Migration: MSR 2.9 + MKE 3.8 (30% Swarm)",
+              "strategy_steps": [
+                "Convert remaining 30% Swarm workloads to Kubernetes",
+                "Migrate MSR 2.9 \u2192 MSR 4.0 on MKE 3.x Kubernetes",
+                "Validate all workloads with new MSR 4.0",
+                "Upgrade MKE 3.x \u2192 MKE 4.0",
+                "Final validation and optimization"
+              ],
+              "critical_timeline": "6.0 months estimated (plan for urgency if approaching EOL)",
+              "key_considerations": [
+                "Swarm workload conversion is customer responsibility",
+                "Recommend parallel Kubernetes deployment for testing",
+                "MSR 4.0 breaking changes require CI/CD pipeline updates"
+              ]
+            },
+            "phase_details": [
+              {
+                "number": 1,
+                "name": "Assessment & Planning",
+                "description": "Complete detailed current state analysis and migration plan",
+                "duration_weeks": "1-2 weeks",
+                "activities": [
+                  "Joint assessment - PS leads with your team participation",
+                  "PS documents architecture with your team input",
+                  "Collaborative risk identification and mitigation planning",
+                  "PS creates runbook; your team validates for operational fit"
+                ]
+              },
+              {
+                "number": 2,
+                "name": "Enablement & Training",
+                "description": "Build team capabilities for migration and ongoing operations",
+                "duration_weeks": "1-2 weeks (overlaps with Phase 1)",
+                "activities": [
+                  "PS delivers hands-on training with your team practicing",
+                  "Joint MSR 4.0 and Kubernetes conversion training",
+                  "PS demonstrates Swarm-to-K8s migration tools; your team practices",
+                  "Collaborative establishment of standards and practices"
+                ]
+              },
+              {
+                "number": 3,
+                "name": "Transformation & Preparation",
+                "description": "Convert Swarm workloads to Kubernetes and prepare environment",
+                "duration_weeks": "3-5 weeks (begins during Phase 2)",
+                "activities": [
+                  "Joint Swarm-to-Kubernetes conversion with PS leading complex workloads",
+                  "Shared CI/CD pipeline updates with PS leading patterns",
+                  "PS sets up MSR 4.0 infrastructure; your team learns alongside",
+                  "Joint performance testing with knowledge transfer"
+                ]
+              },
+              {
+                "number": 4,
+                "name": "Migration Execution",
+                "description": "Execute registry and platform migration",
+                "duration_weeks": "2-4 weeks (overlaps with Phase 3)",
+                "activities": [
+                  "Shared execution - PS leads critical paths, you handle routine",
+                  "Joint authentication migration with clear role splits",
+                  "PS updates complex applications; your team handles standard ones",
+                  "Collaborative integration validation"
+                ]
+              },
+              {
+                "number": 5,
+                "name": "Validation & Optimization",
+                "description": "Final validation and knowledge transfer",
+                "duration_weeks": "1-2 weeks (concurrent with Phase 4)",
+                "activities": [
+                  "Joint comprehensive testing and validation",
+                  "Collaborative performance tuning with knowledge transfer",
+                  "PS and your team co-author documentation together",
+                  "Joint knowledge transfer sessions and operational readiness"
+                ]
+              }
+            ],
+            "immediate_actions": [
+              "Allocate dedicated team resources for migration project"
+            ],
+            "ps_role_breakdown": [
+              {
+                "role": "PS Lead Architect",
+                "weeks": "3-3 weeks",
+                "description": "Technical guidance and critical decision support"
+              },
+              {
+                "role": "PS Migration Engineer",
+                "weeks": "2-3 weeks",
+                "description": "Complex migration tasks and technical validation"
+              },
+              {
+                "role": "PS Project Manager",
+                "weeks": "1-1 weeks",
+                "description": "Planning oversight and milestone tracking"
+              }
+            ]
+          },
+          "validation_message": "Valid response received",
+          "timestamp": "2025-11-25T17:35:35.874905"
+        }
+      ],
+      "passed": 15,
+      "failed": 0
+    },
+    "invalid_inputs": {
+      "tests": [
+        {
+          "test_name": "Negative Swarm%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": -10,
+            "kubernetes_percent": 110,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"greater_than_equal\",\"loc\":[\"body\",\"swarm_percent\"],\"msg\":\"Input should be greater than or equal to 0\",\"input\":-10,\"ctx\":{\"ge\":0},\"url\":\"https://errors.pydantic.dev/2.5/v/greater_th"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.877426"
+        },
+        {
+          "test_name": "Negative Team Size",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": -5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"greater_than_equal\",\"loc\":[\"body\",\"platform_team_size\"],\"msg\":\"Input should be greater than or equal to 0\",\"input\":-5,\"ctx\":{\"ge\":0},\"url\":\"https://errors.pydantic.dev/2.5/v/greate"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.882624"
+        },
+        {
+          "test_name": "Negative Apps",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": -100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"greater_than_equal\",\"loc\":[\"body\",\"app_count\"],\"msg\":\"Input should be greater than or equal to 1\",\"input\":-100,\"ctx\":{\"ge\":1},\"url\":\"https://errors.pydantic.dev/2.5/v/greater_than_"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.884743"
+        },
+        {
+          "test_name": "Swarm > 100%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 150,
+            "kubernetes_percent": -50,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"less_than_equal\",\"loc\":[\"body\",\"swarm_percent\"],\"msg\":\"Input should be less than or equal to 100\",\"input\":150,\"ctx\":{\"le\":100},\"url\":\"https://errors.pydantic.dev/2.5/v/less_than_eq"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.887091"
+        },
+        {
+          "test_name": "K8s Exp > 5",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 10,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"less_than_equal\",\"loc\":[\"body\",\"k8s_experience\"],\"msg\":\"Input should be less than or equal to 5\",\"input\":10,\"ctx\":{\"le\":5},\"url\":\"https://errors.pydantic.dev/2.5/v/less_than_equal\""
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.889189"
+        },
+        {
+          "test_name": "Automation > 100%",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 150,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"less_than_equal\",\"loc\":[\"body\",\"automation_level\"],\"msg\":\"Input should be less than or equal to 100\",\"input\":150,\"ctx\":{\"le\":100},\"url\":\"https://errors.pydantic.dev/2.5/v/less_than"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.891540"
+        },
+        {
+          "test_name": "Invalid Swarm+K8s",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 40,
+            "kubernetes_percent": 40,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\",\"kubernetes_percent\"],\"msg\":\"Value error, Swarm (40%) + Kubernetes (40%) must equal 100%, got 80%\",\"input\":40,\"ctx\":{\"error\":{}},\"url\":\"https://errors.py"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.894531"
+        },
+        {
+          "test_name": "Zero MKE",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 0,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"greater_than_equal\",\"loc\":[\"body\",\"num_mke_instances\"],\"msg\":\"Input should be greater than or equal to 1\",\"input\":0,\"ctx\":{\"ge\":1},\"url\":\"https://errors.pydantic.dev/2.5/v/greater_"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.905511"
+        },
+        {
+          "test_name": "Zero Nodes",
+          "passed": true,
+          "input_data": {
+            "company_name": "Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 0,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "should_error": true
+          },
+          "actual_result": {
+            "error": "HTTP 422: {\"detail\":[{\"type\":\"greater_than_equal\",\"loc\":[\"body\",\"total_nodes\"],\"msg\":\"Input should be greater than or equal to 1\",\"input\":0,\"ctx\":{\"ge\":1},\"url\":\"https://errors.pydantic.dev/2.5/v/greater_than_e"
+          },
+          "validation_message": "Properly rejected invalid input",
+          "timestamp": "2025-11-25T17:35:35.908217"
+        }
+      ],
+      "passed": 9,
+      "failed": 0
+    },
+    "response_validation": {
+      "tests": [
+        {
+          "test_name": "Field 'engagement_model' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "engagement_model",
+            "expected_type": "<class 'dict'>"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": {
+              "model": "hybrid",
+              "name": "Hybrid Migration Approach",
+              "approach": "Hybrid Approach (Guided 5-Phase Implementation)",
+              "description": "Balanced Swarm/Kubernetes workloads, capable team lacks bandwidth for full ownership",
+              "ps_effort_percent": 62.5,
+              "duration_multiplier": 1.25
+            }
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911029"
+        },
+        {
+          "test_name": "Field 'complexity_score' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "complexity_score",
+            "expected_type": "(<class 'int'>, <class 'float'>)"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": 36
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911045"
+        },
+        {
+          "test_name": "Field 'complexity_level' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "complexity_level",
+            "expected_type": "<class 'str'>"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": "Low-Medium"
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911049"
+        },
+        {
+          "test_name": "Field 'readiness_score' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "readiness_score",
+            "expected_type": "(<class 'int'>, <class 'float'>)"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": 85
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911053"
+        },
+        {
+          "test_name": "Field 'readiness_level' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "readiness_level",
+            "expected_type": "<class 'str'>"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": "Good Readiness"
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911056"
+        },
+        {
+          "test_name": "Field 'timeline' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "timeline",
+            "expected_type": "<class 'dict'>"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": {
+              "min_months": 2.1,
+              "max_months": 2.6,
+              "base_weeks": 6.2,
+              "multipliers_applied": {
+                "base": 6.2,
+                "mke_instances": 1.5,
+                "msr_instances": 0.0,
+                "swarm": 0.9,
+                "engagement": 1.0,
+                "environments": 0.0,
+                "experience": 0.0,
+                "minimal_engagement": 0.0,
+                "msr_migration": 1.0
+              }
+            }
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911058"
+        },
+        {
+          "test_name": "Field 'considerations' type check",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "considerations",
+            "expected_type": "<class 'list'>"
+          },
+          "actual_result": {
+            "has_field": true,
+            "value": [
+              "No significant considerations identified"
+            ]
+          },
+          "validation_message": "Field present and correct type",
+          "timestamp": "2025-11-25T17:35:35.911061"
+        },
+        {
+          "test_name": "Engagement model field 'model'",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "model"
+          },
+          "actual_result": {
+            "value": "hybrid"
+          },
+          "validation_message": "Field present",
+          "timestamp": "2025-11-25T17:35:35.911064"
+        },
+        {
+          "test_name": "Engagement model field 'name'",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "name"
+          },
+          "actual_result": {
+            "value": "Hybrid Migration Approach"
+          },
+          "validation_message": "Field present",
+          "timestamp": "2025-11-25T17:35:35.911067"
+        },
+        {
+          "test_name": "Engagement model field 'ps_effort_percent'",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "ps_effort_percent"
+          },
+          "actual_result": {
+            "value": 62.5
+          },
+          "validation_message": "Field present",
+          "timestamp": "2025-11-25T17:35:35.911069"
+        },
+        {
+          "test_name": "Engagement model field 'duration_multiplier'",
+          "passed": true,
+          "input_data": {
+            "company_name": "Validation Test Corp",
+            "msr_version": "2.9",
+            "mke_version": "3.8",
+            "infra_location": "onprem",
+            "environments": [
+              "production"
+            ],
+            "num_mke_instances": 5,
+            "num_msr_instances": 1,
+            "total_nodes": 50,
+            "app_count": 100,
+            "air_gapped": false,
+            "swarm_percent": 30,
+            "kubernetes_percent": 70,
+            "mission_critical_percent": 30,
+            "business_critical_percent": 30,
+            "platform_team_size": 5,
+            "k8s_experience": 3,
+            "migration_exp": "some",
+            "dedicated_team": "partial",
+            "training_needs_count": 2,
+            "automation_level": 50,
+            "deploy_frequency": "weekly"
+          },
+          "expected": {
+            "field": "duration_multiplier"
+          },
+          "actual_result": {
+            "value": 1.25
+          },
+          "validation_message": "Field present",
+          "timestamp": "2025-11-25T17:35:35.911071"
+        }
+      ],
+      "passed": 11,
+      "failed": 0
+    }
+  },
+  "failed_tests": []
+}
